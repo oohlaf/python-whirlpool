@@ -1,3 +1,12 @@
+/**
+ * This is just a wrapper to the Whirlpool hashing function.
+ * The Whirlpool reference implementations are public domain,
+ * as is this code.
+ *
+ * Wrapper written by James Cleveland with help from #python
+ * on irc.freenode.net
+ */
+
 #define PY_SSIZE_T_CLEAN 1
 #include <Python.h>
 #include "Whirlpool.c"
