@@ -148,35 +148,11 @@ PyDoc_STRVAR(copy_doc,
 Return a copy (``clone'') of the whirlpool object.");
 
 
-// TODO Mark deprecated
-static PyObject *
-whirlpool_hash(PyObject *self, PyObject *args) {
-    struct NESSIEstruct w;
-    unsigned char digest[DIGESTBYTES];
-    Py_ssize_t data_size;
-    unsigned char *data;
-
-
-    if(!PyArg_ParseTuple(args, "s#", &data, &data_size))
-        return NULL;
-    
-    NESSIEinit(&w);
-    NESSIEadd(data, data_size*8, &w);
-    NESSIEfinalize(&w, digest);
-
-    return Py_BuildValue("s#", digest, DIGESTBYTES);
-}
-
-PyDoc_STRVAR(hash_doc,
-"Hash with whirlpool algorithm.");
-
-
 PyMethodDef whirlpool_methods[] = {
     {"update",    (PyCFunction)whirlpool_update,    METH_VARARGS, update_doc},
     {"digest",    (PyCFunction)whirlpool_digest,    METH_NOARGS,  digest_doc},
     {"hexdigest", (PyCFunction)whirlpool_hexdigest, METH_NOARGS,  hexdigest_doc},
     {"copy",      (PyCFunction)whirlpool_copy,      METH_NOARGS,  copy_doc},
-    {"hash",      (PyCFunction)whirlpool_hash,      METH_VARARGS, hash_doc},
     {NULL, NULL} /* sentinel */
 };
 
@@ -286,10 +262,34 @@ Return a new whirlpool object. If arg is present, the method call update(arg)\n\
 is made.");
 
 
+// TODO Mark deprecated
+static PyObject *
+whirlpool_hash(PyObject *self, PyObject *args) {
+    struct NESSIEstruct w;
+    unsigned char digest[DIGESTBYTES];
+    Py_ssize_t data_size;
+    unsigned char *data;
+
+
+    if(!PyArg_ParseTuple(args, "s#", &data, &data_size))
+        return NULL;
+    
+    NESSIEinit(&w);
+    NESSIEadd(data, data_size*8, &w);
+    NESSIEfinalize(&w, digest);
+
+    return Py_BuildValue("s#", digest, DIGESTBYTES);
+}
+
+PyDoc_STRVAR(hash_doc,
+"Hash with whirlpool algorithm.");
+
+
 /* List of functions exported by this module */
 
 static PyMethodDef whirlpool_functions[] = {
-    {"new", (PyCFunction)whirlpool_new, METH_VARARGS, new_doc},
+    {"new",  (PyCFunction)whirlpool_new,  METH_VARARGS, new_doc},
+    {"hash", (PyCFunction)whirlpool_hash, METH_VARARGS, hash_doc},
     {NULL, NULL} /* sentinel */
 };
 
