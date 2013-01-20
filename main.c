@@ -7,7 +7,6 @@
  * on irc.freenode.net
  */
 
-#define PY_SSIZE_T_CLEAN 1
 #include <Python.h>
 #include "Whirlpool.c"
 
@@ -73,7 +72,7 @@ whirlpool_digest(whirlpoolobject *self)
     NESSIEstruct wpContext;
     unsigned char digest[DIGESTBYTES];
 
-    /* make a temporary copy, and perform the final */
+    /* Make a temporary copy, and perform the final */
     wpContext = self->whirlpool;
     NESSIEfinalize(&wpContext, digest);
 
@@ -174,10 +173,17 @@ static PyGetSetDef whirlpool_getseters[] = {
 
 
 PyDoc_STRVAR(module_doc,
-"This module implements the whirlpool digest algorithm.\n\
+"This module implements the interface to the whirlpool message digest\n\
+algorithm. It operates on messages less than 2^256 bits in length,\n\
+and produces a message digest of 512 bits. Its use is quite straighforward:\n\
+use new() to create a whirlpool object. You can now feed this object with\n\
+arbitrary strings using the update() method. At any point you can ask it for\n\
+the digest of the concatenation of the strings fed to it so far.\n\
 \n\
 Functions:\n\
 new([arg]) -- return a new whirlpool object, initialized with arg if provided\n\
+hash(arg) -- DEPRECATED, returns a whirlpool digest of arg, for backward \
+compatibility\n\
 \n\
 Special Objects:\n\
 \n\
@@ -189,7 +195,7 @@ a string of information.\n\
 \n\
 Methods:\n\
 \n\
-update() -- updates the current digest with an additional string\n\
+update(arg) -- updates the current digest with an additional string\n\
 digest() -- return the current digest value\n\
 hexdigest() -- return the current digest as a string of hexadecimal digits\n\
 copy() -- return a copy of the current whirlpool object");
@@ -282,7 +288,7 @@ whirlpool_hash(PyObject *self, PyObject *args) {
 }
 
 PyDoc_STRVAR(hash_doc,
-"Hash with whirlpool algorithm.");
+"Returns a hash of argument using the whirlpool algorithm.");
 
 
 /* List of functions exported by this module */
