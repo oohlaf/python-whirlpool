@@ -6,13 +6,13 @@ as yet unbroken and fairly obscure. Provided on the algorithm's page is a C refe
 implementation which is fairly simple to wrap with a Python extension, which is much
 faster than re-implementation in pure Python.
 """
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 
 
 doclines = __doc__.split("\n")
 
 setup(name = "Whirlpool",
-    version = "0.1",
+    version = "0.2",
     description = doclines[0],
     long_description = "\n".join(doclines[2:]),
     url = "https://github.com/radiosilence/python-whirlpool",
@@ -21,6 +21,7 @@ setup(name = "Whirlpool",
     license = "Public Domain",
     platforms = ["any"],
     ext_modules = [Extension("whirlpool", ["main.c"])],
-    data_files = [("whirlpool", ['nessie.h', "Whirlpool.c"])]
+    data_files = [("whirlpool", ['nessie.h', "Whirlpool.c"])],
+    test_suite = "tests"
 )
 
