@@ -1,6 +1,7 @@
 python-whirlpool
 ================
 
+The Whirlpool algorithm is designed by Vincent Rijmen and Paulo S.L.M. Barreto.
 This is just a wrapper to the Whirlpool C reference implementation. 
 The Whirlpool reference implementations are public domain, as is this code.
 
