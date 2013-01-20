@@ -332,6 +332,8 @@ initwhirlpool(void)
     m = Py_InitModule3("whirlpool", whirlpool_functions, module_doc);
     if (m == NULL)
         return;
+    PyModule_AddIntConstant(m, "digest_size", DIGESTBYTES);
+    PyModule_AddIntConstant(m, "block_size", WBLOCKBYTES);
     d = PyModule_GetDict(m);
     PyDict_SetItemString(d, "WhirlpoolType", (PyObject *)&Whirlpooltype);
 }
