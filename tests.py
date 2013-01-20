@@ -77,6 +77,20 @@ class TestWhirlpool(unittest.TestCase):
         self.assertEqual(b2a_hex(wp3.digest()), results['tqbfjotle'])
         self.assertEqual(wp3.hexdigest(), results['tqbfjotle'])
 
+    def test_digest_size(self):
+        wp = whirlpool.new()
+        self.assertEqual(wp.digest_size, 64)
+        with self.assertRaisesRegexp(AttributeError,
+                                     'digest_size.*not writable'):
+            wp.digest_size = 32
+    
+    def test_block_size(self):
+        wp = whirlpool.new()
+        self.assertEqual(wp.block_size, 64)
+        with self.assertRaisesRegexp(AttributeError,
+                                     'block_size.*not writable'):
+            wp.block_size = 32
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -157,13 +157,32 @@ PyMethodDef whirlpool_methods[] = {
 
 
 static PyObject *
+whirlpool_get_block_size(PyObject *self, void *closure)
+{
+    return PyInt_FromLong(WBLOCKBYTES);
+}
+
+static PyObject *
+whirlpool_get_digest_size(PyObject *self, void *closure)
+{
+    return PyInt_FromLong(DIGESTBYTES);
+}
+
+static PyObject *
 whirlpool_get_name(PyObject *self, void *closure)
 {
     return PyString_FromStringAndSize("WHIRLPOOL", 9);
 }
 
-
 static PyGetSetDef whirlpool_getseters[] = {
+    {"digest_size",
+     (getter)whirlpool_get_digest_size, NULL,
+     NULL,
+     NULL},
+    {"block_size",
+     (getter)whirlpool_get_block_size, NULL,
+     NULL,
+     NULL},
     {"name",
      (getter)whirlpool_get_name, NULL,
      NULL,
