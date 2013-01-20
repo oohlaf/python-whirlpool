@@ -268,7 +268,6 @@ Return a new whirlpool object. If arg is present, the method call update(arg)\n\
 is made.");
 
 
-// TODO Mark deprecated
 static PyObject *
 whirlpool_hash(PyObject *self, PyObject *args) {
     struct NESSIEstruct w;
@@ -288,7 +287,8 @@ whirlpool_hash(PyObject *self, PyObject *args) {
 }
 
 PyDoc_STRVAR(hash_doc,
-"Returns a hash of argument using the whirlpool algorithm.");
+"Returns a hash of argument using the whirlpool algorithm.\n\
+This function is deprecated. Please use new() and hexdigest().");
 
 
 /* List of functions exported by this module */

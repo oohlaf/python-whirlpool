@@ -10,6 +10,9 @@ Wrapper modified by Olaf Conradi to use the hashlib interface.
 
 Usage
 -----
+
+This is the same interface as provided by the other digest algorithms in
+Python's hashlib.
     
     import whirlpool
 
@@ -21,6 +24,8 @@ Usage
 
 Deprecated usage
 ----------------
+
+For backward compatibility the old interface remains available.
 
     import whirlpool
 
