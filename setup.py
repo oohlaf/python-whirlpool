@@ -12,7 +12,7 @@ from setuptools import setup, Extension
 doclines = __doc__.split("\n")
 
 setup(name = "Whirlpool",
-    version = "0.2",
+    version = "0.3",
     description = doclines[0],
     long_description = "\n".join(doclines[2:]),
     url = "https://github.com/radiosilence/python-whirlpool",
