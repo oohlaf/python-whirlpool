@@ -1715,7 +1715,7 @@ static void display(const u8 array[], int length) {
  * 2. hashing all 512-bit strings containing a single set bit;
  * 3. the iterated hashing of the 512-bit string of zero bits a large number of times.
  */
-void makeNESSIETestVectors() {
+void makeNESSIETestVectors(void) {
     int i;
     struct NESSIEstruct w;
     u8 digest[DIGESTBYTES];
@@ -1758,7 +1758,7 @@ void makeNESSIETestVectors() {
 /*
 #define TIMING_ITERATIONS 100000
 
-static void timing() {
+static void timing(void) {
     int i;
     NESSIEstruct w;
     u8 digest[DIGESTBYTES];
@@ -1842,7 +1842,7 @@ void testAPI(void) {
     printf("No error detected.\n");
 }
 
-void makeISOTestVectors() {
+void makeISOTestVectors(void) {
     struct NESSIEstruct w;
     u8 digest[DIGESTBYTES];
     static u8 data[1000000];
@@ -1920,7 +1920,7 @@ void makeISOTestVectors() {
 }
 
 #ifdef TRACE_INTERMEDIATE_VALUES
-static void makeIntermediateValues() {
+static void makeIntermediateValues(void) {
     struct NESSIEstruct w;
     u8 digest[DIGESTBYTES];
 
