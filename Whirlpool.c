@@ -1858,49 +1858,49 @@ void makeISOTestVectors(void) {
 
     printf("2. In this example the data-string consists of a single byte, namely the ASCII-coded version of the letter 'a'.\n\n");
     NESSIEinit(&w);
-    NESSIEadd("a", 8*1, &w);
+    NESSIEadd((u8*)"a", 8*1, &w);
     NESSIEfinalize(&w, digest);
     printf("The hash-code is the following 512-bit string.\n\n");
     display(digest, DIGESTBYTES); printf("\n\n");
 
     printf("3. In this example the data-string is the three-byte string consisting of the ASCII-coded version of 'abc'.\n\n");
     NESSIEinit(&w);
-    NESSIEadd("abc", 8*3, &w);
+    NESSIEadd((u8*)"abc", 8*3, &w);
     NESSIEfinalize(&w, digest);
     printf("The hash-code is the following 512-bit string.\n\n");
     display(digest, DIGESTBYTES); printf("\n\n");
 
     printf("4. In this example the data-string is the 14-byte string consisting of the ASCII-coded version of 'message digest'.\n\n");
     NESSIEinit(&w);
-    NESSIEadd("message digest", 8*14, &w);
+    NESSIEadd((u8*)"message digest", 8*14, &w);
     NESSIEfinalize(&w, digest);
     printf("The hash-code is the following 512-bit string.\n\n");
     display(digest, DIGESTBYTES); printf("\n\n");
 
     printf("5. In this example the data-string is the 26-byte string consisting of the ASCII-coded version of 'abcdefghijklmnopqrstuvwxyz'.\n\n");
     NESSIEinit(&w);
-    NESSIEadd("abcdefghijklmnopqrstuvwxyz", 8*26, &w);
+    NESSIEadd((u8*)"abcdefghijklmnopqrstuvwxyz", 8*26, &w);
     NESSIEfinalize(&w, digest);
     printf("The hash-code is the following 512-bit string.\n\n");
     display(digest, DIGESTBYTES); printf("\n\n");
 
     printf("6. In this example the data-string is the 62-byte string consisting of the ASCII-coded version of 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'.\n\n");
     NESSIEinit(&w);
-    NESSIEadd("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", 8*62, &w);
+    NESSIEadd((u8*)"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", 8*62, &w);
     NESSIEfinalize(&w, digest);
     printf("The hash-code is the following 512-bit string.\n\n");
     display(digest, DIGESTBYTES); printf("\n\n");
 
     printf("7. In this example the data-string is the 80-byte string consisting of the ASCII-coded version of eight repetitions of '1234567890'.\n\n");
     NESSIEinit(&w);
-    NESSIEadd("12345678901234567890123456789012345678901234567890123456789012345678901234567890", 8*80, &w);
+    NESSIEadd((u8*)"12345678901234567890123456789012345678901234567890123456789012345678901234567890", 8*80, &w);
     NESSIEfinalize(&w, digest);
     printf("The hash-code is the following 512-bit string.\n\n");
     display(digest, DIGESTBYTES); printf("\n\n");
 
     printf("8. In this example the data-string is the 32-byte string consisting of the ASCII-coded version of 'abcdbcdecdefdefgefghfghighijhijk'.\n\n");
     NESSIEinit(&w);
-    NESSIEadd("abcdbcdecdefdefgefghfghighijhijk", 8*32, &w);
+    NESSIEadd((u8*)"abcdbcdecdefdefgefghfghighijhijk", 8*32, &w);
     NESSIEfinalize(&w, digest);
     printf("The hash-code is the following 512-bit string.\n\n");
     display(digest, DIGESTBYTES); printf("\n\n");
