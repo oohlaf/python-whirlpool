@@ -1,4 +1,6 @@
 build/
 dist/
 MANIFEST
-Whirlpool.egg-info
+*.egg-info
+*.pyc
+*.so

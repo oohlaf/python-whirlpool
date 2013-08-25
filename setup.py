@@ -22,6 +22,8 @@ setup(name = "Whirlpool",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.3",
         "Topic :: Security :: Cryptography",
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
@@ -34,4 +36,3 @@ setup(name = "Whirlpool",
     data_files = [("whirlpool", ['nessie.h', "Whirlpool.c"])],
     test_suite = "tests"
 )
-
