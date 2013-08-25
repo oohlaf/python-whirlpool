@@ -7,7 +7,8 @@ The Whirlpool reference implementations are public domain, as is this code.
 
 Wrapper written by James Cleveland with help from #python on irc.freenode.net.
 
-Wrapper modified by Olaf Conradi to use the hashlib interface.
+Wrapper extended to use the hashlib interface and ported to Python 3 by
+Olaf Conradi.
 
 Usage
 -----
@@ -23,12 +24,26 @@ Python's hashlib.
     wp.update("My Salt")
     hashed_string = wp.hexdigest()
 
+Starting with Python 3 text strings (as shown above) are stored as unicode.
+You need to specify the encoding of these strings before hashing.
+
+    wp = whirlpool.new(data.encoding('utf-8'))
+
+Strings that are marked as binary do not need encoding.
+
 Deprecated usage
 ----------------
 
-For backward compatibility the old interface remains available.
+For backward compatibility the old interface remains available. From Python 3
+onwards, the old interface is dropped.
 
     import whirlpool
 
     hashed_string = whirlpool.hash("My String")
+
+
+Testing
+-------
+
+This module is tested using Python 2.7 and Python 3.3.
 
