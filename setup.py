@@ -12,7 +12,7 @@ from setuptools import setup, Extension
 doclines = __doc__.split("\n")
 
 setup(name = "Whirlpool",
-    version = "0.4.dev1",
+    version = "1.0.0.dev1",
     description = doclines[0],
     long_description = "\n".join(doclines[2:]),
     classifiers=[
@@ -27,9 +27,9 @@ setup(name = "Whirlpool",
         "Topic :: Security :: Cryptography",
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
-    url = "https://github.com/radiosilence/python-whirlpool",
-    maintainer = "James E. Cleveland",
-    maintainer_email = "jamescleveland@gmail.com",
+    url = "https://github.com/oohlaf/python-whirlpool",
+    maintainer = "Olaf Conradi",
+    maintainer_email = "olaf@conradi.org",
     license = "Public Domain",
     platforms = ["any"],
     ext_modules = [Extension("whirlpool", ["main.c"])],
