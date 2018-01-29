@@ -1,0 +1,19 @@
+language: python
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+sudo: false
+
+install:
+  - pip install .
+
+script: 
+  - python setup.py test
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
