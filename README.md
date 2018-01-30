@@ -31,19 +31,7 @@ You need to specify the encoding of these strings before hashing.
 
 Strings that are marked as binary do not need encoding.
 
-Deprecated usage
-----------------
-
-For backward compatibility the old interface remains available. From Python 3
-onwards, the old interface is dropped.
-
-    import whirlpool
-
-    hashed_string = whirlpool.hash("My String")
-
-
 Testing
 -------
 
 This module is tested using Python 2.7 and Python 3.3.
-

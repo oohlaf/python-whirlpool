@@ -34,15 +34,6 @@ def digest2hex(data):
 
 class TestWhirlpool(unittest.TestCase):
 
-    @unittest.skipIf(sys.hexversion >= 0x03000000, "function deprecated")
-    def test_hash_empty(self):
-        self.assertEqual(digest2hex(whirlpool.hash(data['empty'])), results['empty'])
-
-    @unittest.skipIf(sys.hexversion >= 0x03000000, "function deprecated")
-    def test_hash_fox(self):
-        self.assertEqual(digest2hex(whirlpool.hash(data['tqbfjotld'])), results['tqbfjotld'])
-        self.assertEqual(digest2hex(whirlpool.hash(data['tqbfjotle'])), results['tqbfjotle'])
-
     def test_new_empty(self):
         wp = whirlpool.new()
         self.assertEqual(digest2hex(wp.digest()), results['empty'])

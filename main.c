@@ -377,38 +377,10 @@ Return a new whirlpool object. If arg is present, the method call update(arg)\n\
 is made.");
 
 
-#if PY_MAJOR_VERSION < 3
-/* Function is deprecated and only available in Python 2.7 */
-static PyObject *
-whirlpool_hash(PyObject *self, PyObject *args) {
-    struct NESSIEstruct w;
-    unsigned char digest[DIGESTBYTES];
-    Py_ssize_t data_size;
-    unsigned char *data;
-
-    if(!PyArg_ParseTuple(args, "s#", &data, &data_size))
-        return NULL;
-    
-    NESSIEinit(&w);
-    NESSIEadd(data, data_size*8, &w);
-    NESSIEfinalize(&w, digest);
-
-    return Py_BuildValue("s#", digest, DIGESTBYTES);
-}
-
-PyDoc_STRVAR(hash_doc,
-"Returns a hash of argument using the whirlpool algorithm.\n\
-This function is deprecated. Please use new() and hexdigest().");
-#endif
-
-
 /* List of functions exported by this module */
 
 static struct PyMethodDef whirlpool_functions[] = {
     {"new",  (PyCFunction)whirlpool_new,  METH_VARARGS, new_doc},
-#if PY_MAJOR_VERSION < 3
-    {"hash", (PyCFunction)whirlpool_hash, METH_VARARGS, hash_doc},
-#endif
     {NULL, NULL} /* sentinel */
 };
 

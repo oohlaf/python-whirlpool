@@ -13,6 +13,9 @@
 - Started using [semantic versioning][semver] together with
   [keep a changelog][keepachangelog].
 
+### Deprecated
+- Removed the old deprecated `hash()` interface.
+
 ## [0.3] - 2013-01-23
 
 ### Added
