@@ -98,13 +98,13 @@ class TestWhirlpool(unittest.TestCase):
     def test_digest_size(self):
         wp = whirlpool.new()
         self.assertEqual(wp.digest_size, 64)
-        with self.assertRaises(AttributeError):
+        with self.assertRaises((AttributeError, TypeError)):
             wp.digest_size = 32
     
     def test_block_size(self):
         wp = whirlpool.new()
         self.assertEqual(wp.block_size, 64)
-        with self.assertRaises(AttributeError):
+        with self.assertRaises((AttributeError, TypeError)):
             wp.digest_size = 32
 
 
