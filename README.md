@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/oohlaf/python-whirlpool.svg?branch=master)](https://travis-ci.org/oohlaf/python-whirlpool)
+[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
+
 python-whirlpool
 ================
 
