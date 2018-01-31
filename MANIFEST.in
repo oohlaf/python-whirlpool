@@ -1,1 +1,1 @@
-include nessie.h Whirlpool.c
+include README.md CHANGELOG.md AUTHORS.txt

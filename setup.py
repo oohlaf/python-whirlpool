@@ -1,4 +1,4 @@
-""" Whirpool: Bindings for whirlpool hash reference implementation.
+""" Whirlpool: Bindings for whirlpool hash reference implementation.
 
 The Whirlpool hashing algorithm (http://www.larc.usp.br/~pbarreto/WhirlpoolPage.html),
 written by Vincent Rijmen and Paulo S. L. M. Barreto is a secure, modern hash which is
@@ -32,7 +32,8 @@ setup(name = "Whirlpool",
     maintainer_email = "olaf@conradi.org",
     license = "Public Domain",
     platforms = ["any"],
-    ext_modules = [Extension("whirlpool", ["main.c"])],
-    data_files = [("whirlpool", ['nessie.h', "Whirlpool.c"])],
-    test_suite = "tests"
+    ext_modules = [Extension("whirlpool", ["whirlpool/pywhirlpool.c"],
+                             include_dirs=["lib"])],
+    data_files = [("whirlpool", ['lib/nessie.h', "lib/Whirlpool.c"])],
+    test_suite = "test"
 )

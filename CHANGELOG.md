@@ -12,6 +12,7 @@
 ### Changed
 - Started using [semantic versioning][semver] together with
   [keep a changelog][keepachangelog].
+- Restructured package setup.
 
 ### Deprecated
 - Removed the old deprecated `hash()` interface.
