@@ -38,7 +38,9 @@
         } \
     } while(0);
 #endif
+#endif
 
+#if PY_MAJOR_VERSION >= 3 && !defined(PYPY_VERSION)
 #define HEXDIGITS(c) Py_hexdigits[c]
 #else
 #define HEXDIGITS(c) ((c>9) ? c+'a'-10 : c+'0')
