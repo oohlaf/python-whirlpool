@@ -5,7 +5,7 @@
 ### Added
 - Port to Python 3.
 - Added PyPy support (PyPy3 does not work due to functions
-  that have not yet been ported).
+  that have not yet been ported, like `PyUnicode_New`).
 - Added Continuous Integration using Travis-CI.
 
 ### Fixed
@@ -32,7 +32,7 @@
 - The `hash()` function is deprecated. Please transition to the hashlib
   interface and use `new()` and `hexdigest()`.
 
-## 0.2 - Never released
+## 0.2 - Unreleased
 
 ## [0.1] - 2011-05-18
 

@@ -4,14 +4,29 @@
 python-whirlpool
 ================
 
-The Whirlpool algorithm is designed by Vincent Rijmen and Paulo S.L.M. Barreto.
-This is just a wrapper to the Whirlpool C reference implementation. 
+The [Whirlpool] algorithm is designed by Vincent Rijmen and Paulo S.L.M. Barreto.
+It is a secure and modern digest function that has been recommended by the
+[NESSIE] project and adopted in the ISO/IEC 10118-3 international standard.
+
+Digest functions, also known as hash functions, produce fixed-length output (a
+digest or hash) from a variable-length message. They are designed to be a
+one-way function.
+
+This library is a Python wrapper around the Whirlpool C reference implementation.
 The Whirlpool reference implementations are public domain, as is this code.
 
-Wrapper written by James Cleveland with help from #python on irc.freenode.net.
+The first version of the wrapper was written by James Cleveland with help
+from #python on irc.freenode.net.
 
-Wrapper extended to use the hashlib interface and ported to Python 3 by
-Olaf Conradi.
+Later on the wrapper was rewritten by Olaf Conradi to use the hashlib interface
+and made compatible with Python 3.
+
+Installation
+------------
+
+This library is available on [PyPi].
+
+    pip install whirlpool
 
 Usage
 -----
@@ -34,7 +49,32 @@ You need to specify the encoding of these strings before hashing.
 
 Strings that are marked as binary do not need encoding.
 
+Development
+-----------
+
+The source code is available on [GitHub].
+
+    git clone https://github.com/oohlaf/python-whirlpool.git
+    cd python-whirlpool
+
+Install in development mode using:
+
+    python setup.py develop
+
+Or install in editable mode using pip:
+
+    pip install -e .
+
 Testing
 -------
 
-This module is tested using Python 2.7 and Python 3.3.
+This module is tested using Python 2.7, Pypy, and Python 3.3 and up.
+
+You can run the testsuite using
+
+    python setup.py test
+
+[Whirlpool]: https://en.wikipedia.org/wiki/Whirlpool_(cryptography)
+[NESSIE]: https://www.cosic.esat.kuleuven.be/nessie/
+[PyPi]: https://pypi.python.org/pypi/Whirlpool
+[GitHub]: https://github.com/oohlaf/python-whirlpool
