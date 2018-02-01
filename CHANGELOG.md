@@ -4,6 +4,9 @@
 
 ### Added
 - Port to Python 3.
+- Added PyPy support (PyPy3 does not work due to functions
+  that have not yet been ported).
+- Added Continuous Integration using Travis-CI.
 
 ### Fixed
 - Fix struct function declaration prototype warnings.
