@@ -22,6 +22,7 @@ setup(name = "Whirlpool",
     version = "1.0.0.dev1",
     description = doclines[0],
     long_description = README + '\n' + CHANGELOG,
+    long_description_content_type = "text/markdown",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
