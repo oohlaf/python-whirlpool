@@ -8,8 +8,11 @@ if sys.version_info.major < 3:
     from io import open
 
 
-doclines = __doc__.strip().split('\n')
+VERSION = '1.0.0.dev1'
+GITHUB_URL = 'https://github.com/oohlaf/python-whirlpool'
+DOWNLOAD_URL = '{}/archive/{}.zip'.format(GITHUB_URL, VERSION)
 
+DOCLINES = __doc__.strip().split('\n')
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, 'README.md'), encoding='utf-8') as f:
@@ -19,8 +22,8 @@ with open(os.path.join(HERE, 'CHANGELOG.md'), encoding='utf-8') as f:
 
 
 setup(name = "Whirlpool",
-    version = "1.0.0.dev1",
-    description = doclines[0],
+    version = VERSION,
+    description = DOCLINES[0],
     long_description = README + '\n' + CHANGELOG,
     long_description_content_type = "text/markdown",
     classifiers=[
@@ -40,7 +43,8 @@ setup(name = "Whirlpool",
         "Topic :: Security :: Cryptography",
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
-    url = "https://github.com/oohlaf/python-whirlpool",
+    url = GITHUB_URL,
+    download_url = DOWNLOAD_URL,
     maintainer = "Olaf Conradi",
     maintainer_email = "olaf@conradi.org",
     license = "Public Domain",
