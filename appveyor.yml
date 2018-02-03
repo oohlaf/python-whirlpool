@@ -19,7 +19,7 @@ init:
   - ECHO "Installed Python versions:"
   - ps: ls C:\Python*
   - ECHO "Installed SDKs:"
-  - ps: ls "%ProgramFiles%\Microsoft SDKs\Windows"
+  - ps: ls "$env:ProgramFiles\Microsoft SDKs\Windows"
 
 install:
   # If there is a newer build queued for the same PR, cancel this one.
