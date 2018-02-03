@@ -7,10 +7,15 @@ environment:
 
   matrix:
     - PYTHON: "C:\\Python27"
+      DISTUTILS_USE_SDK: "1"
     - PYTHON: "C:\\Python33"
+      DISTUTILS_USE_SDK: "1"
     - PYTHON: "C:\\Python34"
+      DISTUTILS_USE_SDK: "1"
     - PYTHON: "C:\\Python35"
+      DISTUTILS_USE_SDK: "1"
     - PYTHON: "C:\\Python36"
+      DISTUTILS_USE_SDK: "1"
 
 install:
   # If there is a newer build queued for the same PR, cancel this one.
