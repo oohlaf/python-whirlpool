@@ -9,26 +9,26 @@ environment:
     WITH_COMPILER: 'cmd /E:ON /V:ON /C .\.appveyor\appveyor-with-compiler.cmd'
 
   matrix:
-    - PYTHON: C:\Python27
+    - PYTHON_VERSION: '2.7'
+      PYTHON_ARCH: '32'
       PYTHON_HOME: C:\Python27
-      PYTHON_VERSION: '2.7'
+      PYTHON_EXE: C:\Python27\python.exe
+    - PYTHON_VERSION: '3.3'
       PYTHON_ARCH: '32'
-    - PYTHON: C:\Python33
       PYTHON_HOME: C:\Python33
-      PYTHON_VERSION: '3.3'
+      PYTHON_EXE: C:\Python33\python.exe
+    - PYTHON_VERSION: '3.4'
       PYTHON_ARCH: '32'
-    - PYTHON: C:\Python34
       PYTHON_HOME: C:\Python34
-      PYTHON_VERSION: '3.4'
+      PYTHON_EXE: C:\Python34\python.exe
+    - PYTHON_VERSION: '3.5'
       PYTHON_ARCH: '32'
-    - PYTHON: C:\Python35
       PYTHON_HOME: C:\Python35
-      PYTHON_VERSION: '3.5'
+      PYTHON_EXE: C:\Python35\python.exe
+    - PYTHON_VERSION: '3.6'
       PYTHON_ARCH: '32'
-    - PYTHON: C:\Python36
       PYTHON_HOME: C:\Python36
-      PYTHON_VERSION: '3.6'
-      PYTHON_ARCH: '32'
+      PYTHON_EXE: C:\Python36\python.exe
 
 init:
   - ECHO "Installed Python versions:"
@@ -49,13 +49,13 @@ install:
   - python -u .appveyor\appveyor-bootstrap.py
 
 build_script:
-  - "%WITH_COMPILER% python setup.py build"
+  - "%WITH_COMPILER% %PYTHON_EXE% setup.py build"
 
 test_script:
-  - "%WITH_COMPILER% python setup.py test"
+  - "%WITH_COMPILER% %PYTHON_EXE% setup.py test"
 
 after_test:
-  - "%WITH_COMPILER% python setup.py bdist_wheel"
+  - "%WITH_COMPILER% %PYTHON_EXE% setup.py bdist_wheel"
   - ps: ls dist
 
 artifacts:
