@@ -1,0 +1,95 @@
+version: '{branch}-{build}'
+cache:
+  - '%LOCALAPPDATA%\pip\Cache'
+environment:
+  global:
+    # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the
+    # /E:ON and /V:ON options are not enabled in the batch script intepreter
+    # See: http://stackoverflow.com/a/13751649/163740
+    WITH_COMPILER: 'cmd /E:ON /V:ON /C .\.appveyor\appveyor-with-compiler.cmd'
+
+  matrix:
+    - PYTHON_VERSION: '2.7'
+      PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python27
+      PYTHON_EXE: C:\Python27\python.exe
+    - PYTHON_VERSION: '2.7'
+      PYTHON_ARCH: '64'
+      WINDOWS_SDK_VERSION: v7.0
+      PYTHON_HOME: C:\Python27-x64
+      PYTHON_EXE: C:\Python27-x64\python.exe
+    - PYTHON_VERSION: '3.3'
+      PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python33
+      PYTHON_EXE: C:\Python33\python.exe
+    - PYTHON_VERSION: '3.3'
+      PYTHON_ARCH: '64'
+      WINDOWS_SDK_VERSION: v7.1
+      PYTHON_HOME: C:\Python33-x64
+      PYTHON_EXE: C:\Python33-x64\python.exe
+    - PYTHON_VERSION: '3.4'
+      PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python34
+      PYTHON_EXE: C:\Python34\python.exe
+    - PYTHON_VERSION: '3.4'
+      PYTHON_ARCH: '64'
+      WINDOWS_SDK_VERSION: v7.1
+      PYTHON_HOME: C:\Python34-x64
+      PYTHON_EXE: C:\Python34-x64\python.exe
+    - PYTHON_VERSION: '3.5'
+      PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python35
+      PYTHON_EXE: C:\Python35\python.exe
+    - PYTHON_VERSION: '3.5'
+      PYTHON_ARCH: '64'
+      PYTHON_HOME: C:\Python35-x64
+      PYTHON_EXE: C:\Python35-x64\python.exe
+    - PYTHON_VERSION: '3.6'
+      PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python36
+      PYTHON_EXE: C:\Python36\python.exe
+    - PYTHON_VERSION: '3.6'
+      PYTHON_ARCH: '64'
+      PYTHON_HOME: C:\Python36-x64
+      PYTHON_EXE: C:\Python36-x64\python.exe
+
+matrix:
+  fast_finish: true
+
+init:
+  - ECHO "Installed Python versions:"
+  - ps: ls C:\Python*
+  - ECHO "Installed SDKs:"
+  - ps: ls "$env:ProgramFiles\Microsoft SDKs\Windows"
+
+install:
+  # If there is a newer build queued for the same PR, cancel this one.
+  # The AppVeyor 'rollout builds' option is supposed to serve the same
+  # purpose but it is problematic because it tends to cancel builds pushed
+  # directly to master instead of just PR builds (or the converse).
+  # credits: JuliaLang developers.
+  - ps: |
+      if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and
+          $env:APPVEYOR_BUILD_NUMBER -ne
+          (
+              (Invoke-RestMethod https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50
+              ).builds | Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER
+          )[0].buildNumber
+         )
+      {
+          throw "There are newer queued builds for this pull request, failing early."
+      }
+  - python -u .appveyor\appveyor-bootstrap.py
+
+build_script:
+  - "%WITH_COMPILER% %PYTHON_EXE% setup.py build"
+
+test_script:
+  - "%WITH_COMPILER% %PYTHON_EXE% setup.py test"
+
+after_test:
+  - "%WITH_COMPILER% %PYTHON_EXE% setup.py bdist_wheel"
+  - ps: ls dist
+
+artifacts:
+  - path: dist\*.whl

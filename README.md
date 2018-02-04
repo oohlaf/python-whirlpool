@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/oohlaf/python-whirlpool.svg?branch=master)](https://travis-ci.org/oohlaf/python-whirlpool)
+[![Build Status](https://ci.appveyor.com/api/projects/status/pw35grm8ald8lg22/branch/master?svg=true)](https://ci.appveyor.com/project/oohlaf/python-whirlpool/branch/master)
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 
 python-whirlpool
@@ -68,7 +69,7 @@ Or install in editable mode using pip:
 Testing
 -------
 
-This module is tested using Python 2.7, Pypy, and Python 3.3 and up.
+This module is tested using Python 2.7, PyPy, and Python 3.3 and up.
 
 You can run the testsuite using
 
