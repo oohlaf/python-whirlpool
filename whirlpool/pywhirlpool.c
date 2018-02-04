@@ -146,7 +146,7 @@ whirlpool_hexdigest(whirlpoolobject *self)
 #else
     char *hexdigest;
 #endif
-    int i, j;
+    unsigned int i, j;
 
     /* Get the raw (binary) digest value */
     wpContext = self->whirlpool;
