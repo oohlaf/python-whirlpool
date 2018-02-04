@@ -9,6 +9,7 @@ environment:
     WITH_COMPILER: 'cmd /E:ON /V:ON /C .\.appveyor\appveyor-with-compiler.cmd'
 
   matrix:
+    fast_finish: true
     - PYTHON_VERSION: '2.7'
       PYTHON_ARCH: '32'
       PYTHON_HOME: C:\Python27
@@ -42,10 +43,17 @@ install:
   # purpose but it is problematic because it tends to cancel builds pushed
   # directly to master instead of just PR builds (or the converse).
   # credits: JuliaLang developers.
-  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
-        https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
-        Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
-          throw "There are newer queued builds for this pull request, failing early." }
+  - ps: |
+      if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and
+          $env:APPVEYOR_BUILD_NUMBER -ne
+          (
+              (Invoke-RestMethod https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50
+              ).builds | Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER
+          )[0].buildNumber
+         )
+      {
+          throw "There are newer queued builds for this pull request, failing early."
+      }
   - python -u .appveyor\appveyor-bootstrap.py
 
 build_script:
@@ -59,4 +67,4 @@ after_test:
   - ps: ls dist
 
 artifacts:
-  - path: dist\*
+  - path: dist\*.whl
