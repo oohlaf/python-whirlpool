@@ -9,7 +9,6 @@ environment:
     WITH_COMPILER: 'cmd /E:ON /V:ON /C .\.appveyor\appveyor-with-compiler.cmd'
 
   matrix:
-    fast_finish: true
     - PYTHON_VERSION: '2.7'
       PYTHON_ARCH: '32'
       PYTHON_HOME: C:\Python27
@@ -30,6 +29,9 @@ environment:
       PYTHON_ARCH: '32'
       PYTHON_HOME: C:\Python36
       PYTHON_EXE: C:\Python36\python.exe
+
+matrix:
+  fast_finish: true
 
 init:
   - ECHO "Installed Python versions:"
