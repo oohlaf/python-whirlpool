@@ -13,20 +13,40 @@ environment:
       PYTHON_ARCH: '32'
       PYTHON_HOME: C:\Python27
       PYTHON_EXE: C:\Python27\python.exe
+    - PYTHON_VERSION: '2.7'
+      PYTHON_ARCH: '64'
+      PYTHON_HOME: C:\Python27
+      PYTHON_EXE: C:\Python27\python.exe
     - PYTHON_VERSION: '3.3'
       PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python33
+      PYTHON_EXE: C:\Python33\python.exe
+    - PYTHON_VERSION: '3.3'
+      PYTHON_ARCH: '64'
       PYTHON_HOME: C:\Python33
       PYTHON_EXE: C:\Python33\python.exe
     - PYTHON_VERSION: '3.4'
       PYTHON_ARCH: '32'
       PYTHON_HOME: C:\Python34
       PYTHON_EXE: C:\Python34\python.exe
+    - PYTHON_VERSION: '3.4'
+      PYTHON_ARCH: '64'
+      PYTHON_HOME: C:\Python34
+      PYTHON_EXE: C:\Python34\python.exe
     - PYTHON_VERSION: '3.5'
       PYTHON_ARCH: '32'
       PYTHON_HOME: C:\Python35
       PYTHON_EXE: C:\Python35\python.exe
+    - PYTHON_VERSION: '3.5'
+      PYTHON_ARCH: '64'
+      PYTHON_HOME: C:\Python35
+      PYTHON_EXE: C:\Python35\python.exe
     - PYTHON_VERSION: '3.6'
       PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python36
+      PYTHON_EXE: C:\Python36\python.exe
+    - PYTHON_VERSION: '3.6'
+      PYTHON_ARCH: '64'
       PYTHON_HOME: C:\Python36
       PYTHON_EXE: C:\Python36\python.exe
 
