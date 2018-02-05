@@ -1,4 +1,14 @@
 language: python
+
+stages:
+  - name: test
+  - name: build sdist
+    if: type = push AND tag =~ ^v\d+\.\d+\.\d+
+  - name: build wheel
+    if: type = push AND tag =~ ^v\d+\.\d+\.\d+
+  - name: deploy
+    if: type = push AND tag =~ ^v\d+\.\d+\.\d+
+
 python:
   - "2.7"
   - "pypy"
@@ -19,6 +29,16 @@ install:
 
 script: 
   - python setup.py test
+
+jobs:
+  fast_finish: true
+  include:
+    - stage: build sdist
+      script: python setup.py sdist
+    - stage: build wheel
+      script: python setup.py bdist_wheel
+    - stage: deploy
+      script: echo "Deploy stage"
 
 notifications:
   email:
