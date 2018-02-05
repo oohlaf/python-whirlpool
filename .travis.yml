@@ -1,4 +1,5 @@
 language: python
+sudo: false
 
 stages:
   - name: test
@@ -9,21 +10,6 @@ stages:
   - name: deploy
     if: type = push AND tag =~ ^v\d+\.\d+\.\d+
 
-python:
-  - "2.7"
-  - "pypy"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.6"
-  - "pypy3"
-sudo: false
-
-matrix:
-  fast_finish: true
-  allow_failures:
-  - python: "pypy3"
-
 install:
   - pip install .
 
@@ -32,10 +18,37 @@ script:
 
 jobs:
   fast_finish: true
+  allow_failures:
+  - python: "pypy3"
   include:
+    - stage: test
+      python:
+        - "2.7"
+        - "pypy"
+        - "3.3"
+        - "3.4"
+        - "3.5"
+        - "3.6"
+        - "pypy3"
     - stage: build sdist
+      python:
+        - "2.7"
+        - "pypy"
+        - "3.3"
+        - "3.4"
+        - "3.5"
+        - "3.6"
+        - "pypy3"
       script: python setup.py sdist
     - stage: build wheel
+      python:
+        - "2.7"
+        - "pypy"
+        - "3.3"
+        - "3.4"
+        - "3.5"
+        - "3.6"
+        - "pypy3"
       script: python setup.py bdist_wheel
     - stage: deploy
       script: echo "Deploy stage"
