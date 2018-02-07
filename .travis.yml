@@ -28,7 +28,7 @@ script:
     fi
   - if [[ $TRAVIS_PULL_REQUEST == "false" && $TRAVIS_TAG =~ v\d\.\d\.\d ]]; then
       echo "Creating binary distribution wheel.";
-      python setup.py bdist_wheel
+      python setup.py bdist_wheel;
     else
       echo "Skip creation of binary distribution wheel.";
     fi
