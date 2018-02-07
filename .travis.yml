@@ -21,13 +21,13 @@ install:
 script: 
   - python setup.py test
   - env
-  - if [[ $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v\d\.\d\.\d ]]; then
+  - if [[ $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
       echo "Creating source distribution.";
       python setup.py sdist;
     else
       echo "Skip creation of source distribution.";
     fi
-  - if [[ $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v\d\.\d\.\d ]]; then
+  - if [[ $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
       echo "Creating binary distribution wheel.";
       python setup.py bdist_wheel;
     else
