@@ -48,7 +48,7 @@ jobs:
           - dist/Whirlpool-*.tar.gz
           - dist/Whirlpool-*.whl
         on:
-          repo: oohlaf/python-whirlpool
+          tags: true
     - stage: deploy
       python: 3.6
       script: echo "Deploy stage"
