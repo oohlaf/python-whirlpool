@@ -36,8 +36,19 @@ script:
 jobs:
   fast_finish: true
   allow_failures:
-  - python: "pypy3"
+    - python: "pypy3"
   include:
+    - stage: test
+      deploy:
+        provider: releases
+        api_key:
+          secure: Oy5f4YjhoPd1tAFK0nlD9ZmWYH1cpnl5R3erPinemU4S/8l0jyTb4e5gdYVhluzSTZGrvNKJREwTSsq6yOriNc9EgTc/YwkFczkFuPokGzNO+VNfaEfsm9v/zcPH+Tpc51mFWXYnhFzBkJeIeRPNoVXCifFL+WxoCyWg6ljpVHg=
+        file_glob: true
+        file:
+          - dist/Whirlpool-*.tar.gz
+          - dist/Whirlpool-*.whl
+        on:
+          repo: oohlaf/python-whirlpool
     - stage: deploy
       python: 3.6
       script: echo "Deploy stage"
