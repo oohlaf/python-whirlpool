@@ -81,9 +81,6 @@ install:
       }
   - python -u .appveyor\appveyor-bootstrap.py
 
-build_script:
-  - "%WITH_COMPILER% %PYTHON_EXE% setup.py build"
-
 test_script:
   - "%WITH_COMPILER% %PYTHON_EXE% setup.py test"
 
@@ -92,4 +89,16 @@ after_test:
   - ps: ls dist
 
 artifacts:
-  - path: dist\*.whl
+  - path: dist\Whirlpool-*.whl
+
+deploy:
+  - provider: GitHub
+    auth_token:
+      secure: XL2Y+p18A7mTWLwutrqVVb73ZPibgTB+hZD9oP6iK8qylOur1VafOBjCi30K6+1Q
+    description: ''
+    artifact: dist\Whirlpool-*.whl
+    draft: false
+    prerelease: false
+    force_update: true
+    on:
+      appveyor_repo_tag: true
