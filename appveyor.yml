@@ -81,8 +81,7 @@ install:
       }
   - python -u .appveyor\appveyor-bootstrap.py
 
-build_script:
-  - "%WITH_COMPILER% %PYTHON_EXE% setup.py build"
+build: off
 
 test_script:
   - "%WITH_COMPILER% %PYTHON_EXE% setup.py test"
@@ -99,7 +98,6 @@ deploy:
   - provider: GitHub
     auth_token:
       secure: XL2Y+p18A7mTWLwutrqVVb73ZPibgTB+hZD9oP6iK8qylOur1VafOBjCi30K6+1Q
-    description: ''
     artifact: wheel
     draft: false
     prerelease: false
