@@ -81,6 +81,9 @@ install:
       }
   - python -u .appveyor\appveyor-bootstrap.py
 
+build_script:
+  - "%WITH_COMPILER% %PYTHON_EXE% setup.py build"
+
 test_script:
   - "%WITH_COMPILER% %PYTHON_EXE% setup.py test"
 
