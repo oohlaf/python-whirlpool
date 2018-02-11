@@ -93,13 +93,14 @@ after_test:
 
 artifacts:
   - path: dist\Whirlpool-*.whl
+    name: wheel
 
 deploy:
   - provider: GitHub
     auth_token:
       secure: XL2Y+p18A7mTWLwutrqVVb73ZPibgTB+hZD9oP6iK8qylOur1VafOBjCi30K6+1Q
     description: ''
-    artifact: dist\Whirlpool-*.whl
+    artifact: wheel
     draft: false
     prerelease: false
     force_update: true
