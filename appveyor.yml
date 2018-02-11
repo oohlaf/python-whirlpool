@@ -84,7 +84,7 @@ install:
 build: off
 
 test_script:
-  - %CMD_WITH_COMPILER% "%PYTHON_EXE%" setup.py test
+  - '%CMD_WITH_COMPILER% "%PYTHON_EXE%" setup.py test'
 
 after_test:
   - ps: |
