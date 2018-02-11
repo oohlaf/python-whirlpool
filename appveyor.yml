@@ -91,7 +91,7 @@ after_test:
       if ($env:APPVEYOR_REPO_TAG -and
           $env:APPVEYOR_REPO_TAG_NAME -match "v\d\.\d\.\d")
       {
-          "%WITH_COMPILER% %PYTHON_EXE% setup.py bdist_wheel"
+          & "%WITH_COMPILER% %PYTHON_EXE% setup.py bdist_wheel"
       }
 
 artifacts:
