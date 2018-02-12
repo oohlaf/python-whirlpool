@@ -11,6 +11,7 @@ project adheres to [Semantic Versioning][semver].
 - Added PyPy support (PyPy3 does not work due to functions
   that have not yet been ported, like `PyUnicode_New`).
 - Added Continuous Integration using Travis-CI and AppVeyor.
+- Added automatic upload to PyPI on successful build tags.
 
 ### Fixed
 - Fix struct function declaration prototype warnings.
@@ -18,8 +19,8 @@ project adheres to [Semantic Versioning][semver].
 
 ### Changed
 - Package ownership transferred to Olaf Conradi.
-- Started using [semantic versioning][semver] together with
-  [keep a changelog][keepachangelog].
+- Started using [Semantic Versioning][semver] together with
+  [Keep a Changelog][keepachangelog].
 - Restructured package setup.
 
 ### Deprecated

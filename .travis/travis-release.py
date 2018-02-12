@@ -110,7 +110,7 @@ def clear_dir(path):
 def api_request(url):
     """Send a request to API at url and decode the response as json."""
     response = None
-    for _ in range(3):
+    for i in range(5):
         try:
             print("Sending API request to '{}'.".format(url))
             response = urlopen(url)
@@ -118,6 +118,7 @@ def api_request(url):
         except Exception as exc:
             print("Failed to call API:", exc)
         print("Retrying ...")
+        sleep(i)
     if response is None:
         raise ApiTimeout("Could not reach API at '{}'.".format(url))
 
@@ -156,7 +157,7 @@ def check_appveyor_build_status(url):
     interval.
     """
     status = 'queued'
-    for _ in range(30):
+    for _ in range(40):
         data = api_request(url)
         build = data['build']
         status = build['status']

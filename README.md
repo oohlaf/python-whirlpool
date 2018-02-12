@@ -25,7 +25,7 @@ and made compatible with Python 3.
 Installation
 ------------
 
-This library is available on [PyPi].
+This library is available on [PyPI].
 
     pip install whirlpool
 
@@ -77,5 +77,5 @@ You can run the testsuite using
 
 [Whirlpool]: https://en.wikipedia.org/wiki/Whirlpool_(cryptography)
 [NESSIE]: https://www.cosic.esat.kuleuven.be/nessie/
-[PyPi]: https://pypi.python.org/pypi/Whirlpool
+[PyPI]: https://pypi.python.org/pypi/Whirlpool
 [GitHub]: https://github.com/oohlaf/python-whirlpool
