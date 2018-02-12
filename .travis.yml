@@ -1,6 +1,14 @@
 language: python
 sudo: false
 
+env:
+  global:
+    # TWINE_USERNAME
+    - secure: Od+iImlaOP2qzkGstfj3TTmhqWDdtZ1+CGFPJnHzZ9mj9l3Pg1Aek369f1MsGBXZeJqojiTx1xg/XzW3xH39QzbuynMGEFYOAZDnQMJsT990H1vKyHsoQ86t4n0T7FEIs6B5BzP1oDROdADHcxmRQ1BoSvWumbq/isGewArGO0M=
+    # TWINE_PASSWORD
+    - secure: cMN061O5PjB3B8+iSEgyo/qe3QPSDW8GaAupYtHKLnxT2M6JiepuVzZL40y9I1QTnZQMf8VIKH7XExLkgyVvbKZyQCctp9tioBBiAafp6uhAQMLSzj1+03gBzaJQJySPMLX4Snfa/TuhOqym5m4kYQTX/p3qCImzkgxWW1SV+rc=
+    - TWINE_REPOSITORY_URL=https://test.pypi.org/legacy/
+
 stages:
   - name: test
   - name: deploy
@@ -52,9 +60,13 @@ jobs:
   include:
     - stage: deploy
       python: 3.6
-      script: echo "Deploy stage"
+      script:
+        - echo "Check build status."
+        - python .travis/travis-release.py
+        - echo "Deploy to PyPI stage."
+        - twine upload release/*
 
 notifications:
   email:
-    on_success: change
+    on_success: never
     on_failure: change
