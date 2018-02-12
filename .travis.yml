@@ -64,6 +64,7 @@ jobs:
         - echo "Check build status."
         - python .travis/travis-release.py
         - echo "Deploy to PyPI stage."
+        - pip install twine
         - twine upload release/*
 
 notifications:
