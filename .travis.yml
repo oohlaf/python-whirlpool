@@ -33,7 +33,7 @@ before_install:
       brew update || travis_terminate 1;
       if [[ $TRAVIS_PYTHON_VERSION == "2.7" ]]; then
         echo "Installing python 2.";
-        brew install python2 || travis_terminate 1;
+        brew upgrade python2 || travis_terminate 1;
         virtualenv venv -p python2;
       elif [[ $TRAVIS_PYTHON_VERSION == "3.6" ]]; then
         echo "Installing python 3.";
