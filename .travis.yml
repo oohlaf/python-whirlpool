@@ -3,6 +3,8 @@ sudo: false
 
 env:
   global:
+    - PYTHON_EXE=python
+    - PIP_EXE=pip
     # TWINE_USERNAME
     - secure: Od+iImlaOP2qzkGstfj3TTmhqWDdtZ1+CGFPJnHzZ9mj9l3Pg1Aek369f1MsGBXZeJqojiTx1xg/XzW3xH39QzbuynMGEFYOAZDnQMJsT990H1vKyHsoQ86t4n0T7FEIs6B5BzP1oDROdADHcxmRQ1BoSvWumbq/isGewArGO0M=
     # TWINE_PASSWORD
@@ -33,24 +35,23 @@ before_install:
       brew update || travis_terminate 1;
       if [[ $TRAVIS_PYTHON_VERSION == "2.7" ]]; then
         echo "Installing python 2.";
-        brew install python || travis_terminate 1;
-        python -v || travis_terminate 1;
+        brew install python2 || travis_terminate 1;
       elif [[ $TRAVIS_PYTHON_VERSION == "3.6" ]]; then
         echo "Installing python 3.";
         brew install python3 || travis_terminate 1;
-        python -v || travis_terminate 1;
       fi
+      $PYTHON_EXE --version || travis_terminate 1;
     fi
 
 install:
-  - pip install .
+  - $PIP_EXE install .
 
 script: 
-  - python setup.py test || travis_terminate 1
+  - $PYTHON_EXE setup.py test || travis_terminate 1
   # Need to pick a Python version to create the source distribution.
   - if [[ $TRAVIS_PYTHON_VERSION == "3.6" && $TRAVIS_OS_NAME == linux && $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
       echo "Creating source distribution.";
-      python setup.py sdist || travis_terminate 1;
+      $PYTHON_EXE setup.py sdist || travis_terminate 1;
     else
       echo "Skip creation of source distribution.";
     fi
@@ -58,7 +59,7 @@ script:
   # be uploaded on PyPI. As we compile C code, we only create them on OSX.
   - if [[ $TRAVIS_OS_NAME == osx && $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
       echo "Creating binary distribution wheel.";
-      python setup.py bdist_wheel || travis_terminate 1;
+      $PYTHON_EXE setup.py bdist_wheel || travis_terminate 1;
     else
       echo "Skip creation of binary distribution wheel.";
     fi
@@ -84,12 +85,14 @@ jobs:
     # Python 2.7 and 3.6.
     - stage: test
       os: osx
+      python: 2.7
       language: generic
-      env: TRAVIS_PYTHON_VERSION=2.7
+      env: TRAVIS_PYTHON_VERSION=2.7 PYTHON_EXE=python2 PIP_EXE=pip2
     - stage: test
       os: osx
+      python: 3.6
       language: generic
-      env: TRAVIS_PYTHON_VERSION=3.6
+      env: TRAVIS_PYTHON_VERSION=3.6 PYTHON_EXE=python3 PIP_EXE=pip3
     # As the deploy script fetches all build artifacts uploaded to GitHub of
     # all stages, we only need to run it once.
     # So pinning it to Python 3.6 on Linux.
@@ -98,9 +101,9 @@ jobs:
       os: linux
       script:
         - echo "Check build status."
-        - python .travis/travis-release.py || travis_terminate 1
+        - $PYTHON_EXE .travis/travis-release.py || travis_terminate 1
         - echo "Deploy to PyPI stage."
-        - pip install twine || travis_terminate 1
+        - $PIP_EXE install twine || travis_terminate 1
         - twine upload release/* || travis_terminate 1
 
 notifications:
