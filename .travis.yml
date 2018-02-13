@@ -8,6 +8,7 @@ env:
     # TWINE_PASSWORD
     - secure: cMN061O5PjB3B8+iSEgyo/qe3QPSDW8GaAupYtHKLnxT2M6JiepuVzZL40y9I1QTnZQMf8VIKH7XExLkgyVvbKZyQCctp9tioBBiAafp6uhAQMLSzj1+03gBzaJQJySPMLX4Snfa/TuhOqym5m4kYQTX/p3qCImzkgxWW1SV+rc=
     - TWINE_REPOSITORY=https://test.pypi.org/legacy/
+    - TWINE_REPOSITORY_URL=https://test.pypi.org/legacy/
 
 stages:
   - name: test
