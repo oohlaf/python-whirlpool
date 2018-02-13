@@ -17,7 +17,6 @@ stages:
 
 os:
   - linux
-  - osx
 
 python:
   - "2.7"
@@ -80,24 +79,17 @@ jobs:
   fast_finish: true
   allow_failures:
     - python: "pypy3"
-  exclude:
-    # Exclude all Python version except 2.7 and 3.6 on OSX.
-    - stage: test
-      python: 3.3
-      os: osx
-    - stage: test
-      python: 3.4
-      os: osx
-    - stage: test
-      python: 3.5
-      os: osx
-    - stage: test
-      python: "pypy"
-      os: osx
-    - stage: test
-      python: "pypy3"
-      os: osx
   include:
+    # Manually include OSX in the matrix, but only for
+    # Python 2.7 and 3.6.
+    - stage: test
+      os: osx
+      language: generic
+      env: TRAVIS_PYTHON_VERSION=2.7
+    - stage: test
+      os: osx
+      language: generic
+      env: TRAVIS_PYTHON_VERSION=3.6
     # As the deploy script fetches all build artifacts uploaded to GitHub of
     # all stages, we only need to run it once.
     # So pinning it to Python 3.6 on Linux.
