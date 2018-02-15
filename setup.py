@@ -19,13 +19,22 @@ with open(os.path.join(HERE, 'README.md'), encoding='utf-8') as f:
     README = '\n' + f.read()
 with open(os.path.join(HERE, 'CHANGELOG.md'), encoding='utf-8') as f:
     CHANGELOG = '\n' + f.read()
+LONG_DESC = README + '\n' + CHANGELOG
+
+
+try:
+    import pypandoc
+    LONG_DESC = pypandoc.convert_text(LONG_DESC, 'rst', format='markdown')
+    LONG_DESC_CTYPE = 'text/x-rst'
+except (IOError, ImportError):
+    LONG_DESC_CTYPE = 'text/markdown'
 
 
 setup(name = "Whirlpool",
     version = VERSION,
     description = DOCLINES[0],
-    long_description = README + '\n' + CHANGELOG,
-    long_description_content_type = "text/markdown",
+    long_description = LONG_DESC,
+    long_description_content_type = LONG_DESC_CTYPE,
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",

@@ -110,7 +110,7 @@ def clear_dir(path):
 def api_request(url):
     """Send a request to API at url and decode the response as json."""
     response = None
-    for i in range(5):
+    for i in range(3):
         try:
             print("Sending API request to '{}'.".format(url))
             response = urlopen(url)
@@ -150,14 +150,15 @@ def download_github_tagged_release(path, url, tag):
     for asset in data['assets']:
         download_file(asset['browser_download_url'],
                       os.path.join(path, asset['name']))
+        sleep(5)
 
 
 def check_appveyor_build_status(url):
-    """Poll url for final build status for max 30 times with a one minute
+    """Poll url for final build status for max 20 times with a three minute
     interval.
     """
     status = 'queued'
-    for _ in range(40):
+    for _ in range(20):
         data = api_request(url)
         build = data['build']
         status = build['status']
@@ -166,7 +167,7 @@ def check_appveyor_build_status(url):
             return status
         print("Build status of build with version '{}' and tag '{}' "
               "is {}.".format(build['version'], build['tag'], status))
-        sleep(60)
+        sleep(180)
     return status
 
 

@@ -91,6 +91,7 @@ after_test:
       if ($env:APPVEYOR_REPO_TAG -and
           $env:APPVEYOR_REPO_TAG_NAME -match "v\d\.\d\.\d")
       {
+          Invoke-Expression "$env:CMD_WITH_COMPILER $env:PYTHON_EXE -m pip install pypandoc"
           Invoke-Expression "$env:CMD_WITH_COMPILER $env:PYTHON_EXE setup.py bdist_wheel"
       }
 
