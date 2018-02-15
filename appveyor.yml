@@ -91,10 +91,15 @@ after_test:
       if ($env:APPVEYOR_REPO_TAG -and
           $env:APPVEYOR_REPO_TAG_NAME -match "v\d\.\d\.\d")
       {
+          Write-Host "Installing pandoc."
+          cinst pandoc
+          if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode) }
           Write-Host "Installing pypandoc."
           Invoke-Expression "$env:CMD_WITH_COMPILER $env:PYTHON_EXE -m pip install pypandoc"
+          if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode) }
           Write-Host "Creating binary distribution wheel."
           Invoke-Expression "$env:CMD_WITH_COMPILER $env:PYTHON_EXE setup.py bdist_wheel"
+          if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode) }
       }
 
 artifacts:
