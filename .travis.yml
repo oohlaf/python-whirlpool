@@ -1,4 +1,5 @@
 language: python
+cache: pip
 sudo: false
 
 env:
@@ -114,7 +115,7 @@ jobs:
         - python .travis/travis-release.py || travis_terminate 1
         - echo "Deploy to PyPI stage."
         - pip install twine || travis_terminate 1
-        - twine upload release/* || travis_terminate 1
+        - twine upload release/* --skip-existing || travis_terminate 1
 
 notifications:
   email:
