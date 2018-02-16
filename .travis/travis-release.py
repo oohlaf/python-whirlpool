@@ -25,6 +25,10 @@ class ReleaseException(Exception):
     """Base exception class for release errors."""
 
 
+class ReleaseVersionException(ReleaseException):
+    """Version mismatch between code and tagged release."""
+
+
 class ApiTimeout(ReleaseException):
     """Could not reach API endpoint."""
 
@@ -138,6 +142,7 @@ def download_github_tagged_release(path, url, tag):
     The local directory path is cleared of any existing files
     before downloading takes place.
     """
+    filenames = []
     if os.path.exists(path):
         print("Clearing existing download path '{}'.".format(path))
         clear_dir(path)
@@ -150,7 +155,9 @@ def download_github_tagged_release(path, url, tag):
     for asset in data['assets']:
         download_file(asset['browser_download_url'],
                       os.path.join(path, asset['name']))
+        filenames.append(asset['name'])
         sleep(5)
+    return filenames
 
 
 def check_appveyor_build_status(url):
@@ -223,6 +230,22 @@ def check_appveyor_tagged_build(url, tag):
                                                             tag))
 
 
+def check_code_version(filenames, tag):
+    """Check if the asset filenames relate to the tag version."""
+    wheel_part = "-{}-".format(tag[1:])
+    targz_part = "-{}.tar.gz".format(tag[1:])
+    for filename in filenames:
+        if (filename[-4:] == '.whl') and (wheel_part not in filename):
+            print("Filename '{}' does not correspond "
+                  "to tag '{}'".format(filename, tag))
+            return False
+        if (filename[-7:] == '.tar.gz') and (targz_part not in filename):
+            print("Filename '{}' does not correspond "
+                  "to tag '{}'".format(filename, tag))
+            return False
+    return True
+
+
 if __name__ == '__main__':
     tag = os.environ['TRAVIS_TAG']
     gh_url = GITHUB_RELEASES_TAGS.format(BASE_GITHUB_API,
@@ -232,5 +255,8 @@ if __name__ == '__main__':
                                            os.environ['TRAVIS_REPO_SLUG'])
     if check_appveyor_tagged_build(av_url, tag):
         print("Download assets for tagged release '{}'.".format(tag))
-        download_github_tagged_release('release', gh_url, tag)
+        filenames = download_github_tagged_release('release', gh_url, tag)
         print("All assets downloaded for tagged release '{}'.".format(tag))
+        if not check_code_version(filenames, tag):
+            raise ReleaseVersionException("Version mismatch "
+                                          "between code and tag")

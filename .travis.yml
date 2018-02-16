@@ -113,6 +113,8 @@ jobs:
     - stage: deploy
       python: 3.6
       os: linux
+      addons: skip
+      cache: skip
       before_install: skip
       install: skip
       script:
