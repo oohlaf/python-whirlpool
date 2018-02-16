@@ -49,8 +49,10 @@ before_install:
       python --version || travis_terminate 1;
     fi
   - if [[ $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
-      echo "Installing pandoc.";
-      brew install pandoc || travis_terminate 1;
+      if [[ $TRAVIS_OS_NAME == "osx" ]]; then
+        echo "Installing pandoc.";
+        brew install pandoc || travis_terminate 1;
+      fi;
       echo "Installing pypandoc.";
       pip install pypandoc || travis_terminate 1;
     fi
