@@ -113,6 +113,7 @@ jobs:
     - stage: deploy
       python: 3.6
       os: linux
+      before_install: skip
       install: skip
       script:
         - echo "Check build status."
