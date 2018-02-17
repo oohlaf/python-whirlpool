@@ -8,9 +8,10 @@ import stat
 from time import sleep
 
 try:
-    from urllib.request import urlretrieve, urlopen
+    from urllib.request import urlretrieve, urlopen, Request
 except ImportError:
-    from urllib import urlretrieve, urlopen
+    from urllib import urlretrieve
+    from urllib2 import urlopen, Request
 
 
 log = logging.getLogger(__name__)
@@ -64,6 +65,33 @@ def download_file(url, path):
     return dest
 
 
+def api_request(url, token):
+    """Send a request to API at url and decode the response as json."""
+    response = None
+    for i in range(3):
+        try:
+            log.info("Sending API request to '%s'.", url)
+            request = Request(url)
+            request.add_header('Authorization', 'token {}'.format(token))
+            response = urlopen(request)
+            break
+        except Exception as exc:
+            log.exception("Failed to call API.")
+        log.info("Retrying ...")
+        sleep(i)
+    if response is None:
+        raise ApiTimeout("Could not reach API at '{}'.".format(url))
+
+    try:
+        charset = response.info().get_content_charset()
+    except AttributeError:
+        charset = response.info().getparam('charset')
+        if not charset:
+            charset = 'utf-8'
+    data = json.loads(response.read().decode(charset))
+    return data
+
+
 def is_regular_dir(path):
     """Return non-zero if path is a directory."""
     try:
@@ -115,32 +143,7 @@ def clear_dir(path):
         raise OSError(errno.ENOTDIR, os.strerror(errno.ENOTDIR), path)
 
 
-def api_request(url):
-    """Send a request to API at url and decode the response as json."""
-    response = None
-    for i in range(3):
-        try:
-            log.info("Sending API request to '%s'.", url)
-            response = urlopen(url)
-            break
-        except Exception as exc:
-            log.exception("Failed to call API.")
-        log.info("Retrying ...")
-        sleep(i)
-    if response is None:
-        raise ApiTimeout("Could not reach API at '{}'.".format(url))
-
-    try:
-        charset = response.info().get_content_charset()
-    except AttributeError:
-        charset = response.info().getparam('charset')
-        if not charset:
-            charset = 'utf-8'
-    data = json.loads(response.read().decode(charset))
-    return data
-
-
-def download_github_tagged_release(path, url, tag):
+def download_github_tagged_release(path, url, tag, token):
     """Download all assets that belong to GitHub url for given tag.
 
     The local directory path is cleared of any existing files
@@ -155,7 +158,7 @@ def download_github_tagged_release(path, url, tag):
         os.makedirs(path)
 
     log.info("Retrieving GitHub assets for tag '%s'.", tag)
-    data = api_request(url)
+    data = api_request(url, token)
     for asset in data['assets']:
         download_file(asset['browser_download_url'],
                       os.path.join(path, asset['name']))
@@ -182,7 +185,7 @@ def check_appveyor_build_status(url):
     return status
 
 
-def check_appveyor_tagged_build(url, tag):
+def check_appveyor_tagged_build(url, tag, token):
     """Examine the AppVeyor build history for any build with the specified
     tag. When the build still needs to finish keep polling for updates
     until done or timed out.
@@ -190,7 +193,7 @@ def check_appveyor_tagged_build(url, tag):
     Returns true when build is successful or raises an exception otherwise.
     """
     log.info("Retrieving AppVeyor build history.")
-    data = api_request(url)
+    data = api_request(url, token)
     status = 'unknown'
     for build in data['builds']:
         if build['isTag'] and build['tag'] == tag:
@@ -251,17 +254,22 @@ def check_code_version(filenames, tag):
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG,
+                        format="%(message)s")
 
     tag = os.environ['TRAVIS_TAG']
+    gh_token = os.environ['GITHUB_API_TOKEN']
+    av_token = os.environ['APPVEYOR_API_TOKEN']
     gh_url = GITHUB_RELEASES_TAGS.format(BASE_GITHUB_API,
                                          os.environ['TRAVIS_REPO_SLUG'],
                                          tag)
     av_url = APPVEYOR_BUILD_HISTORY.format(BASE_APPVEYOR_API,
                                            os.environ['TRAVIS_REPO_SLUG'])
-    if check_appveyor_tagged_build(av_url, tag):
+    if check_appveyor_tagged_build(av_url, tag, av_token):
         log.info("Download assets for tagged release '%s'.", tag)
-        filenames = download_github_tagged_release('release', gh_url, tag)
+        filenames = download_github_tagged_release('release',
+                                                   gh_url, tag,
+                                                   gh_token)
         log.info("All assets downloaded for tagged release '%s'.", tag)
         if not check_code_version(filenames, tag):
             raise ReleaseVersionException("Version mismatch "

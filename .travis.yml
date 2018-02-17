@@ -4,6 +4,10 @@ sudo: false
 
 env:
   global:
+    # GITHUB_API_TOKEN
+    - secure: YNLKYudc4YRn+i89r20lB8oDoigXqiBWHpBi+QVNUCuzbHcp1rtK5/uwvbMEzERPTcRsFcqp0BHOaXf8PzWFVYVVlLCag9eX69HuOopHakW6zvZgWEv5ZVUbzLatJmOJ6BXIP+b6o83lgrO1khG2e8VRPVVwO8D0kadr2zwpuH4=
+    # APPVEYOR_API_TOKEN
+      secure: UaLfn9kWVK+EyYxvjZzoV3m3ODs+iD0F57kCF4Z+YqXdo3oPxd+hIoEpo9VtkXAvhNLbj3kvCyiv+J+lqEwuR6uoAFaiz70LaAsxIX1CuHzNhJRxUglK4TdTdoGXHo2bbiTPZRnPkYwFYip5ehx8q7tPnL+xgu3AiTTLvSr0R6g=
     # TWINE_USERNAME
     - secure: Od+iImlaOP2qzkGstfj3TTmhqWDdtZ1+CGFPJnHzZ9mj9l3Pg1Aek369f1MsGBXZeJqojiTx1xg/XzW3xH39QzbuynMGEFYOAZDnQMJsT990H1vKyHsoQ86t4n0T7FEIs6B5BzP1oDROdADHcxmRQ1BoSvWumbq/isGewArGO0M=
     # TWINE_PASSWORD
