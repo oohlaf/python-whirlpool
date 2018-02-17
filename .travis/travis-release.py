@@ -72,7 +72,8 @@ def api_request(url, token):
         try:
             log.info("Sending API request to '%s'.", url)
             request = Request(url)
-            request.add_header('Authorization', 'token {}'.format(token))
+            if token is not None:
+                request.add_header('Authorization', 'token {}'.format(token))
             response = urlopen(request)
             break
         except Exception as exc:
@@ -258,8 +259,8 @@ if __name__ == '__main__':
                         format="%(message)s")
 
     tag = os.environ['TRAVIS_TAG']
-    gh_token = os.environ['GITHUB_API_TOKEN']
-    av_token = os.environ['APPVEYOR_API_TOKEN']
+    gh_token = os.environ.get('GITHUB_API_TOKEN')
+    av_token = os.environ.get('APPVEYOR_API_TOKEN')
     gh_url = GITHUB_RELEASES_TAGS.format(BASE_GITHUB_API,
                                          os.environ['TRAVIS_REPO_SLUG'],
                                          tag)
