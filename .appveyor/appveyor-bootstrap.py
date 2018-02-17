@@ -18,7 +18,7 @@ except ImportError:
     from urllib import urlretrieve
 
 
-log = logger.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 
 BASE_URL = "https://www.python.org/ftp/python/"
