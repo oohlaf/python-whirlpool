@@ -167,13 +167,13 @@ def download_github_tagged_release(path, url, tag, token):
     return filenames
 
 
-def check_appveyor_build_status(url):
+def check_appveyor_build_status(url, token):
     """Poll url for final build status for max 20 times with a three minute
     interval.
     """
     status = 'queued'
     for _ in range(20):
-        data = api_request(url)
+        data = api_request(url, token)
         build = data['build']
         status = build['status']
         if status in ('success', 'failed',
@@ -209,7 +209,7 @@ def check_appveyor_tagged_build(url, tag, token):
                     BASE_APPVEYOR_API,
                     os.environ['TRAVIS_REPO_SLUG'],
                     build['version'])
-                status = check_appveyor_build_status(av_build_url)
+                status = check_appveyor_build_status(av_build_url, token)
                 break
     # Done checking build history, examine final status.
     if status == 'unknown':
