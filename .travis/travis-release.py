@@ -1,5 +1,6 @@
 import errno
 import json
+import logging
 import os
 import shutil
 import stat
@@ -10,6 +11,9 @@ try:
     from urllib.request import urlretrieve, urlopen
 except ImportError:
     from urllib import urlretrieve, urlopen
+
+
+log = logging.getLogger(__name__)
 
 
 BASE_GITHUB_API = 'https://api.github.com/repos'
@@ -47,14 +51,14 @@ class AppVeyorBuildTimeout(ReleaseException):
 
 def download_file(url, path):
     """Download the target of url and store as local file in path."""
-    print("Downloading: {} (into {}).".format(url, path))
+    log.info("Downloading: %s (into %s).", url, path)
     progress = [0, 0]
 
     def report(count, size, total):
         progress[0] = count * size
         if progress[0] - progress[1] > 1000000:
             progress[1] = progress[0]
-            print("Downloaded {:,}/{:,} ...".format(progress[1], total))
+            log.info("Downloaded %n/%n ...", progress[1], total)
 
     dest, _ = urlretrieve(url, path, reporthook=report)
     return dest
@@ -116,12 +120,12 @@ def api_request(url):
     response = None
     for i in range(3):
         try:
-            print("Sending API request to '{}'.".format(url))
+            log.info("Sending API request to '%s'.", url)
             response = urlopen(url)
             break
         except Exception as exc:
-            print("Failed to call API:", exc)
-        print("Retrying ...")
+            log.exception("Failed to call API.")
+        log.info("Retrying ...")
         sleep(i)
     if response is None:
         raise ApiTimeout("Could not reach API at '{}'.".format(url))
@@ -144,13 +148,13 @@ def download_github_tagged_release(path, url, tag):
     """
     filenames = []
     if os.path.exists(path):
-        print("Clearing existing download path '{}'.".format(path))
+        log.info("Clearing existing download path '%s'.", path)
         clear_dir(path)
     else:
-        print("Creating download path '{}'.".format(path))
+        log.info("Creating download path '%s'.", path)
         os.makedirs(path)
 
-    print("Retrieving GitHub assets for tag '{}'.".format(tag))
+    log.info("Retrieving GitHub assets for tag '%s'.", tag)
     data = api_request(url)
     for asset in data['assets']:
         download_file(asset['browser_download_url'],
@@ -172,8 +176,8 @@ def check_appveyor_build_status(url):
         if status in ('success', 'failed',
                       'cancelled', 'cancelling'):
             return status
-        print("Build status of build with version '{}' and tag '{}' "
-              "is {}.".format(build['version'], build['tag'], status))
+        log.info("Build status of build with version '%s' and tag '%s' "
+                 "is %s.", build['version'], build['tag'], status)
         sleep(180)
     return status
 
@@ -185,7 +189,7 @@ def check_appveyor_tagged_build(url, tag):
 
     Returns true when build is successful or raises an exception otherwise.
     """
-    print("Retrieving AppVeyor build history.")
+    log.info("Retrieving AppVeyor build history.")
     data = api_request(url)
     status = 'unknown'
     for build in data['builds']:
@@ -208,8 +212,8 @@ def check_appveyor_tagged_build(url, tag):
     if status == 'unknown':
         raise AppVeyorBuildTimeout("No build found for tag '{}'".format(tag))
     elif status == 'success':
-        print("Build version '{}' with tag '{}' "
-              "was successful.".format(build['version'], tag))
+        log.info("Build version '%s' with tag '%s' "
+                 "was successful.", build['version'], tag)
         return True
     elif status in ('cancelled', 'cancelling'):
         raise AppVeyorBuildCancelled("Build version '{}' with tag '{}' was "
@@ -236,17 +240,19 @@ def check_code_version(filenames, tag):
     targz_part = "-{}.tar.gz".format(tag[1:])
     for filename in filenames:
         if (filename[-4:] == '.whl') and (wheel_part not in filename):
-            print("Filename '{}' does not correspond "
-                  "to tag '{}'".format(filename, tag))
+            log.info("Filename '%s' does not correspond "
+                     "to tag '%s'.", filename, tag)
             return False
         if (filename[-7:] == '.tar.gz') and (targz_part not in filename):
-            print("Filename '{}' does not correspond "
-                  "to tag '{}'".format(filename, tag))
+            log.info("Filename '%s' does not correspond "
+                     "to tag '%s'.", filename, tag)
             return False
     return True
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+
     tag = os.environ['TRAVIS_TAG']
     gh_url = GITHUB_RELEASES_TAGS.format(BASE_GITHUB_API,
                                          os.environ['TRAVIS_REPO_SLUG'],
@@ -254,9 +260,9 @@ if __name__ == '__main__':
     av_url = APPVEYOR_BUILD_HISTORY.format(BASE_APPVEYOR_API,
                                            os.environ['TRAVIS_REPO_SLUG'])
     if check_appveyor_tagged_build(av_url, tag):
-        print("Download assets for tagged release '{}'.".format(tag))
+        log.info("Download assets for tagged release '%s'.", tag)
         filenames = download_github_tagged_release('release', gh_url, tag)
-        print("All assets downloaded for tagged release '{}'.".format(tag))
+        log.info("All assets downloaded for tagged release '%s'.", tag)
         if not check_code_version(filenames, tag):
             raise ReleaseVersionException("Version mismatch "
                                           "between code and tag")

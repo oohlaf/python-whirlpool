@@ -4,6 +4,8 @@ AppVeyor will at least have few Pythons around so there's no point of implementi
 This is a port of https://github.com/pypa/python-packaging-user-guide/blob/master/source/code/install.ps1
 with various fixes and improvements that just weren't feasible to implement in PowerShell.
 """
+import logging
+
 from __future__ import print_function
 from os import environ
 from os.path import exists
@@ -13,6 +15,10 @@ try:
     from urllib.request import urlretrieve
 except ImportError:
     from urllib import urlretrieve
+
+
+log = logger.getLogger(__name__)
+
 
 BASE_URL = "https://www.python.org/ftp/python/"
 GET_PIP_URL = "https://bootstrap.pypa.io/get-pip.py"
@@ -48,43 +54,44 @@ INSTALL_CMD = {
 
 
 def download_file(url, path):
-    print("Downloading: {} (into {})".format(url, path))
+    log.info("Downloading: %s (into %s).", url, path)
     progress = [0, 0]
 
     def report(count, size, total):
         progress[0] = count * size
         if progress[0] - progress[1] > 1000000:
             progress[1] = progress[0]
-            print("Downloaded {:,}/{:,} ...".format(progress[1], total))
+            log.info("Downloaded %n/%n ...", progress[1], total)
 
     dest, _ = urlretrieve(url, path, reporthook=report)
     return dest
 
 
 def install_python(version, arch, home):
-    print("Installing Python", version, "for", arch, "bit architecture to", home)
+    log.info("Installing Python %s for %s bit architecture to '%s'.",
+             version, arch, home)
     if exists(home):
         return
 
     path = download_python(version, arch)
-    print("Installing", path, "to", home)
+    log.info("Installing '%s' to '%s'.", path, home)
     success = False
     for cmd in INSTALL_CMD[version]:
         cmd = [part.format(home=home, path=path) for part in cmd]
-        print("Running:", " ".join(cmd))
+        log.info("Running '%s'.", " ".join(cmd))
         try:
             check_call(cmd)
         except Exception as exc:
-            print("Failed command", cmd, "with:", exc)
+            log.exception("Failed command '%s'.", " ".join(cmd))
             if exists("install.log"):
                 with open("install.log") as fh:
-                    print(fh.read())
+                    log.error(fh.read())
         else:
             success = True
     if success:
-        print("Installation complete!")
+        log.info("Installation complete.")
     else:
-        print("Installation failed")
+        log.error("Installation failed.")
 
 
 def download_python(version, arch):
@@ -92,19 +99,19 @@ def download_python(version, arch):
         try:
             return download_file(URLS[version, arch], "installer.exe")
         except Exception as exc:
-            print("Failed to download:", exc)
-        print("Retrying ...")
+            log.exception("Failed to download.")
+        log.info("Retrying ...")
 
 
 def install_pip(home):
     pip_path = home + "/Scripts/pip.exe"
     python_path = home + "/python.exe"
     if exists(pip_path):
-        print("pip already installed.")
+        log.info("pip already installed.")
     else:
-        print("Installing pip...")
+        log.info("Installing pip.")
         download_file(GET_PIP_URL, GET_PIP_PATH)
-        print("Executing:", python_path, GET_PIP_PATH)
+        log.info("Executing: %s %s", python_path, GET_PIP_PATH)
         check_call([python_path, GET_PIP_PATH])
 
 
@@ -114,7 +121,9 @@ def install_packages(home, *packages):
     check_call(cmd)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+
     install_python(environ['PYTHON_VERSION'], environ['PYTHON_ARCH'], environ['PYTHON_HOME'])
     install_pip(environ['PYTHON_HOME'])
     install_packages(environ['PYTHON_HOME'], "setuptools>=36.4.0", "wheel")
