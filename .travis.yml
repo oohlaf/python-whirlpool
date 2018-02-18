@@ -1,4 +1,32 @@
 language: python
+cache: pip
+sudo: false
+
+env:
+  global:
+    # GITHUB_API_TOKEN
+    - secure: YNLKYudc4YRn+i89r20lB8oDoigXqiBWHpBi+QVNUCuzbHcp1rtK5/uwvbMEzERPTcRsFcqp0BHOaXf8PzWFVYVVlLCag9eX69HuOopHakW6zvZgWEv5ZVUbzLatJmOJ6BXIP+b6o83lgrO1khG2e8VRPVVwO8D0kadr2zwpuH4=
+    # APPVEYOR_API_TOKEN
+    - secure: UaLfn9kWVK+EyYxvjZzoV3m3ODs+iD0F57kCF4Z+YqXdo3oPxd+hIoEpo9VtkXAvhNLbj3kvCyiv+J+lqEwuR6uoAFaiz70LaAsxIX1CuHzNhJRxUglK4TdTdoGXHo2bbiTPZRnPkYwFYip5ehx8q7tPnL+xgu3AiTTLvSr0R6g=
+    # TWINE_USERNAME
+    - secure: Od+iImlaOP2qzkGstfj3TTmhqWDdtZ1+CGFPJnHzZ9mj9l3Pg1Aek369f1MsGBXZeJqojiTx1xg/XzW3xH39QzbuynMGEFYOAZDnQMJsT990H1vKyHsoQ86t4n0T7FEIs6B5BzP1oDROdADHcxmRQ1BoSvWumbq/isGewArGO0M=
+    # TWINE_PASSWORD
+    - secure: cMN061O5PjB3B8+iSEgyo/qe3QPSDW8GaAupYtHKLnxT2M6JiepuVzZL40y9I1QTnZQMf8VIKH7XExLkgyVvbKZyQCctp9tioBBiAafp6uhAQMLSzj1+03gBzaJQJySPMLX4Snfa/TuhOqym5m4kYQTX/p3qCImzkgxWW1SV+rc=
+    - TWINE_REPOSITORY=https://test.pypi.org/legacy/
+    - TWINE_REPOSITORY_URL=https://test.pypi.org/legacy/
+
+stages:
+  - name: test
+  - name: deploy
+    if: type = push AND tag =~ ^v\d+\.\d+\.\d+
+
+os:
+  - linux
+
+addons:
+  apt_packages:
+    - pandoc
+
 python:
   - "2.7"
   - "pypy"
@@ -7,20 +35,100 @@ python:
   - "3.5"
   - "3.6"
   - "pypy3"
-sudo: false
 
-matrix:
-  fast_finish: true
-  allow_failures:
-  - python: "pypy3"
+before_install:
+  - if [[ $TRAVIS_OS_NAME == "osx" ]]; then
+      echo "Updating brew packages.";
+      brew update || travis_terminate 1;
+      if [[ $TRAVIS_PYTHON_VERSION == "2.7" ]]; then
+        echo "Installing python 2.";
+        brew upgrade python2 || travis_terminate 1;
+        virtualenv venv -p python2;
+      elif [[ $TRAVIS_PYTHON_VERSION == "3.6" ]]; then
+        echo "Installing python 3.";
+        brew install python3 || travis_terminate 1;
+        virtualenv venv -p python3;
+      fi;
+      source venv/bin/activate || travis_terminate 1;
+      python --version || travis_terminate 1;
+    fi
+  - if [[ $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+      if [[ $TRAVIS_OS_NAME == "osx" ]]; then
+        echo "Installing pandoc.";
+        brew install pandoc || travis_terminate 1;
+      fi;
+      echo "Installing pypandoc.";
+      pip install pypandoc || travis_terminate 1;
+    fi
 
 install:
   - pip install .
 
 script: 
-  - python setup.py test
+  - python setup.py test || travis_terminate 1
+  # Need to pick a Python version to create the source distribution.
+  - if [[ $TRAVIS_PYTHON_VERSION == "3.6" && $TRAVIS_OS_NAME == linux && $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+      echo "Creating source distribution.";
+      python setup.py sdist || travis_terminate 1;
+    else
+      echo "Skip creation of source distribution.";
+    fi
+  # Binary wheels for Linux that are too platform specific are not allowed to
+  # be uploaded on PyPI. As we need to compile C code, we only create them on OSX.
+  - if [[ $TRAVIS_OS_NAME == osx && $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+      echo "Creating binary distribution wheel.";
+      python setup.py bdist_wheel || travis_terminate 1;
+    else
+      echo "Skip creation of binary distribution wheel.";
+    fi
+
+deploy:
+  provider: releases
+  api_key:
+    secure: Oy5f4YjhoPd1tAFK0nlD9ZmWYH1cpnl5R3erPinemU4S/8l0jyTb4e5gdYVhluzSTZGrvNKJREwTSsq6yOriNc9EgTc/YwkFczkFuPokGzNO+VNfaEfsm9v/zcPH+Tpc51mFWXYnhFzBkJeIeRPNoVXCifFL+WxoCyWg6ljpVHg=
+  skip_cleanup: true
+  file_glob: true
+  file:
+    - dist/Whirlpool-*.tar.gz
+    - dist/Whirlpool-*.whl
+  on:
+    tags: true
+
+jobs:
+  fast_finish: true
+  allow_failures:
+    - python: "pypy3"
+  include:
+    # Manually include OSX in the job matrix, but only for
+    # Python 2.7 and 3.6.
+    - stage: test
+      os: osx
+      python: 2.7
+      language: generic
+      env: TRAVIS_PYTHON_VERSION=2.7
+    - stage: test
+      os: osx
+      python: 3.6
+      language: generic
+      env: TRAVIS_PYTHON_VERSION=3.6
+    # As the deploy script fetches all build artifacts uploaded to GitHub of
+    # all stages, we only need to run it once.
+    # So pinning it to Python 3.6 on Linux.
+    - stage: deploy
+      python: 3.6
+      os: linux
+      addons: skip
+      cache: skip
+      before_install: skip
+      install: skip
+      script:
+        - echo "Check build status."
+        - python .travis/travis-release.py || travis_terminate 1
+        - echo "Deploy to PyPI stage."
+        - pip install twine || travis_terminate 1
+        - twine upload dist/* --skip-existing || travis_terminate 1
 
 notifications:
   email:
-    on_success: change
+    on_success: never
     on_failure: change

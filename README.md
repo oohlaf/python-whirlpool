@@ -1,9 +1,8 @@
-[![Build Status](https://travis-ci.org/oohlaf/python-whirlpool.svg?branch=master)](https://travis-ci.org/oohlaf/python-whirlpool)
-[![Build Status](https://ci.appveyor.com/api/projects/status/pw35grm8ald8lg22/branch/master?svg=true)](https://ci.appveyor.com/project/oohlaf/python-whirlpool/branch/master)
-[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
+# python-whirlpool
 
-python-whirlpool
-================
+[![Travis CI Build Status](https://travis-ci.org/oohlaf/python-whirlpool.svg?branch=master)](https://travis-ci.org/oohlaf/python-whirlpool)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/pw35grm8ald8lg22/branch/master?svg=true)](https://ci.appveyor.com/project/oohlaf/python-whirlpool/branch/master)
+[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 
 The [Whirlpool] algorithm is designed by Vincent Rijmen and Paulo S.L.M. Barreto.
 It is a secure and modern digest function that has been recommended by the
@@ -20,17 +19,15 @@ The first version of the wrapper was written by James Cleveland with help
 from #python on irc.freenode.net.
 
 Later on the wrapper was rewritten by Olaf Conradi to use the hashlib interface
-and made compatible with Python 3.
+and he made the library compatible with Python 3.
 
-Installation
-------------
+## Installation
 
-This library is available on [PyPi].
+This library is available on [PyPI].
 
     pip install whirlpool
 
-Usage
------
+## Usage
 
 This is the same interface as provided by the other digest algorithms in
 Python's hashlib.
@@ -50,8 +47,7 @@ You need to specify the encoding of these strings before hashing.
 
 Strings that are marked as binary do not need encoding.
 
-Development
------------
+## Development
 
 The source code is available on [GitHub].
 
@@ -66,16 +62,15 @@ Or install in editable mode using pip:
 
     pip install -e .
 
-Testing
--------
+## Testing
 
 This module is tested using Python 2.7, PyPy, and Python 3.3 and up.
 
-You can run the testsuite using
+You can run the test suite using
 
     python setup.py test
 
 [Whirlpool]: https://en.wikipedia.org/wiki/Whirlpool_(cryptography)
 [NESSIE]: https://www.cosic.esat.kuleuven.be/nessie/
-[PyPi]: https://pypi.python.org/pypi/Whirlpool
+[PyPI]: https://pypi.python.org/pypi/Whirlpool
 [GitHub]: https://github.com/oohlaf/python-whirlpool
