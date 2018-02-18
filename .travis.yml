@@ -12,8 +12,10 @@ env:
     - secure: Od+iImlaOP2qzkGstfj3TTmhqWDdtZ1+CGFPJnHzZ9mj9l3Pg1Aek369f1MsGBXZeJqojiTx1xg/XzW3xH39QzbuynMGEFYOAZDnQMJsT990H1vKyHsoQ86t4n0T7FEIs6B5BzP1oDROdADHcxmRQ1BoSvWumbq/isGewArGO0M=
     # TWINE_PASSWORD
     - secure: cMN061O5PjB3B8+iSEgyo/qe3QPSDW8GaAupYtHKLnxT2M6JiepuVzZL40y9I1QTnZQMf8VIKH7XExLkgyVvbKZyQCctp9tioBBiAafp6uhAQMLSzj1+03gBzaJQJySPMLX4Snfa/TuhOqym5m4kYQTX/p3qCImzkgxWW1SV+rc=
-    - TWINE_TEST_REPOSITORY=https://test.pypi.org/legacy/
+    - TWINE_TEST_REPOSITORY=pypitest
     - TWINE_TEST_REPOSITORY_URL=https://test.pypi.org/legacy/
+    - TWINE_PROD_REPOSITORY=pypi
+    - TWINE_PROD_REPOSITORY_URL=https://upload.pypi.org/legacy/
 
 stages:
   - name: test
@@ -129,9 +131,10 @@ jobs:
         - if [[ $TRAVIS_PULL_REQUEST == false && -n $TRAVIS_TAG ]]; then
             if [[ $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo "Deploy to production PyPI.";
+              twine upload -r $TWINE_PROD_REPOSITORY --repository-url $TWINE_PROD_REPOSITORY_URL dist/* --skip-existing || travis_terminate 1;
             else
               echo "Deploy to test PyPI.";
-              twine upload -r $TWINE_TEST_REPOSITORY dist/* --skip-existing || travis_terminate 1;
+              twine upload -r $TWINE_TEST_REPOSITORY --repository-url $TWINE_TEST_REPOSITORY_URL dist/* --skip-existing || travis_terminate 1;
             fi;
           fi
 
