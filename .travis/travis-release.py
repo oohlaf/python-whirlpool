@@ -2,6 +2,7 @@ import errno
 import json
 import logging
 import os
+import re
 import shutil
 import stat
 
@@ -77,7 +78,7 @@ def api_request(url, token):
                 request.add_header('Authorization', 'token {}'.format(token))
             response = urlopen(request)
             break
-        except Exception as exc:
+        except Exception:
             log.exception("Failed to call API.")
         log.info("Retrying ...")
         sleep(i)
@@ -240,18 +241,30 @@ def check_appveyor_tagged_build(url, tag, token):
 
 
 def check_code_version(filenames, tag):
-    """Check if the asset filenames relate to the tag version."""
-    wheel_part = "-{}-".format(tag[1:])
-    targz_part = "-{}.tar.gz".format(tag[1:])
+    """Check if the asset filenames relate to the tag version.
+
+    When tag is in the form v0.1.2 the first character is stripped.
+
+    Raises ReleaseVersionException when the tag is not found in any
+    of the asset file names.
+    """
+    if re.match(r"v\d+\.\d+\.\d+", tag) is not None:
+        file_tag = tag[1:]
+    else:
+        file_tag = tag
+    wheel_part = "-{}-".format(file_tag)
+    targz_part = "-{}.tar.gz".format(file_tag)
     for filename in filenames:
         if (filename[-4:] == '.whl') and (wheel_part not in filename):
-            log.info("Filename '%s' does not correspond "
-                     "to tag '%s'.", filename, tag)
-            return False
+            log.error("Filename '%s' does not correspond "
+                      "to tag '%s'.", filename, tag)
+            raise ReleaseVersionException("Version mismatch "
+                                          "between code and tag")
         if (filename[-7:] == '.tar.gz') and (targz_part not in filename):
-            log.info("Filename '%s' does not correspond "
-                     "to tag '%s'.", filename, tag)
-            return False
+            log.error("Filename '%s' does not correspond "
+                      "to tag '%s'.", filename, tag)
+            raise ReleaseVersionException("Version mismatch "
+                                          "between code and tag")
     return True
 
 
@@ -273,6 +286,4 @@ if __name__ == '__main__':
                                                    gh_url, tag,
                                                    gh_token)
         log.info("All assets downloaded for tagged release '%s'.", tag)
-        if not check_code_version(filenames, tag):
-            raise ReleaseVersionException("Version mismatch "
-                                          "between code and tag")
+        check_code_version(filenames, tag)

@@ -88,9 +88,7 @@ test_script:
 
 after_test:
   - ps: |
-      if ($env:APPVEYOR_REPO_TAG -and
-          $env:APPVEYOR_REPO_TAG_NAME -match "v\d\.\d\.\d")
-      {
+      if ($env:APPVEYOR_REPO_TAG -eq $true) {
           Write-Host "Installing pandoc."
           cinst --no-progress pandoc
           if ($LastExitCode -ne 0) { $host.SetShouldExit($LastExitCode) }
