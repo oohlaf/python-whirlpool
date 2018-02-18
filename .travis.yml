@@ -12,8 +12,8 @@ env:
     - secure: Od+iImlaOP2qzkGstfj3TTmhqWDdtZ1+CGFPJnHzZ9mj9l3Pg1Aek369f1MsGBXZeJqojiTx1xg/XzW3xH39QzbuynMGEFYOAZDnQMJsT990H1vKyHsoQ86t4n0T7FEIs6B5BzP1oDROdADHcxmRQ1BoSvWumbq/isGewArGO0M=
     # TWINE_PASSWORD
     - secure: cMN061O5PjB3B8+iSEgyo/qe3QPSDW8GaAupYtHKLnxT2M6JiepuVzZL40y9I1QTnZQMf8VIKH7XExLkgyVvbKZyQCctp9tioBBiAafp6uhAQMLSzj1+03gBzaJQJySPMLX4Snfa/TuhOqym5m4kYQTX/p3qCImzkgxWW1SV+rc=
-    - TWINE_REPOSITORY=https://test.pypi.org/legacy/
-    - TWINE_REPOSITORY_URL=https://test.pypi.org/legacy/
+    - TWINE_TEST_REPOSITORY=https://test.pypi.org/legacy/
+    - TWINE_TEST_REPOSITORY_URL=https://test.pypi.org/legacy/
 
 stages:
   - name: test
@@ -52,7 +52,7 @@ before_install:
       source venv/bin/activate || travis_terminate 1;
       python --version || travis_terminate 1;
     fi
-  - if [[ $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+  - if [[ $TRAVIS_PULL_REQUEST == false ]]; then
       if [[ $TRAVIS_OS_NAME == "osx" ]]; then
         echo "Installing pandoc.";
         brew install pandoc || travis_terminate 1;
@@ -67,7 +67,7 @@ install:
 script: 
   - python setup.py test || travis_terminate 1
   # Need to pick a Python version to create the source distribution.
-  - if [[ $TRAVIS_PYTHON_VERSION == "3.6" && $TRAVIS_OS_NAME == linux && $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+  - if [[ $TRAVIS_PYTHON_VERSION == "3.6" && $TRAVIS_OS_NAME == linux && $TRAVIS_PULL_REQUEST == false ]]; then
       echo "Creating source distribution.";
       python setup.py sdist || travis_terminate 1;
     else
@@ -75,7 +75,7 @@ script:
     fi
   # Binary wheels for Linux that are too platform specific are not allowed to
   # be uploaded on PyPI. As we need to compile C code, we only create them on OSX.
-  - if [[ $TRAVIS_OS_NAME == osx && $TRAVIS_PULL_REQUEST == false && $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+  - if [[ $TRAVIS_OS_NAME == osx && $TRAVIS_PULL_REQUEST == false ]]; then
       echo "Creating binary distribution wheel.";
       python setup.py bdist_wheel || travis_terminate 1;
     else
@@ -124,9 +124,17 @@ jobs:
       script:
         - echo "Check build status."
         - python .travis/travis-release.py || travis_terminate 1
-        - echo "Deploy to PyPI stage."
+        - echo "Installing Twine."
         - pip install twine || travis_terminate 1
-        - twine upload dist/* --skip-existing || travis_terminate 1
+        - if [[ $TRAVIS_PULL_REQUEST == false ]]; then
+            if [[ $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+              echo "Deploy to production PyPI.";
+              # twine upload dist/* --skip-existing || travis_terminate 1;
+            else
+              echo "Deploy to test PyPI.";
+              twine upload -r $TWINE_TEST_REPOSITORY dist/* --skip-existing || travis_terminate 1;
+            fi;
+          fi
 
 notifications:
   email:
