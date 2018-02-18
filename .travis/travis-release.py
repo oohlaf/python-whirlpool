@@ -17,9 +17,10 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
+DIST_DIR = 'dist'
+
 BASE_GITHUB_API = 'https://api.github.com/repos'
 GITHUB_RELEASES_TAGS = '{}/{}/releases/tags/{}'
-
 
 BASE_APPVEYOR_API = 'https://ci.appveyor.com/api'
 APPVEYOR_BUILD_HISTORY = '{}/projects/{}/history?recordsNumber=20'
@@ -268,7 +269,7 @@ if __name__ == '__main__':
                                            os.environ['TRAVIS_REPO_SLUG'])
     if check_appveyor_tagged_build(av_url, tag, av_token):
         log.info("Download assets for tagged release '%s'.", tag)
-        filenames = download_github_tagged_release('release',
+        filenames = download_github_tagged_release(DIST_DIR,
                                                    gh_url, tag,
                                                    gh_token)
         log.info("All assets downloaded for tagged release '%s'.", tag)
