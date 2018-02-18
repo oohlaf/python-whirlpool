@@ -129,7 +129,6 @@ jobs:
         - if [[ $TRAVIS_PULL_REQUEST == false && -n $TRAVIS_TAG ]]; then
             if [[ $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
               echo "Deploy to production PyPI.";
-              # twine upload dist/* --skip-existing || travis_terminate 1;
             else
               echo "Deploy to test PyPI.";
               twine upload -r $TWINE_TEST_REPOSITORY dist/* --skip-existing || travis_terminate 1;
