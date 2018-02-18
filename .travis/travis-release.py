@@ -250,7 +250,7 @@ def check_code_version(filenames, tag):
     """
     if re.match(r"v\d+\.\d+\.\d+", tag) is not None:
         file_tag = tag[1:]
-    else
+    else:
         file_tag = tag
     wheel_part = "-{}-".format(file_tag)
     targz_part = "-{}.tar.gz".format(file_tag)
