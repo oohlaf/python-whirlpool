@@ -39,14 +39,14 @@ python:
 before_install:
   - if [[ $TRAVIS_OS_NAME == "osx" ]]; then
       echo "Updating brew packages.";
-      brew update || travis_terminate 1;
+      brew update 1>&2 || travis_terminate 1;
       if [[ $TRAVIS_PYTHON_VERSION == "2.7" ]]; then
         echo "Installing python 2.";
-        brew upgrade python2 || travis_terminate 1;
+        brew upgrade python2 1>&2 || travis_terminate 1;
         virtualenv venv -p python2;
       elif [[ $TRAVIS_PYTHON_VERSION == "3.6" ]]; then
         echo "Installing python 3.";
-        brew install python3 || travis_terminate 1;
+        brew install python3 1>&2 || travis_terminate 1;
         virtualenv venv -p python3;
       fi;
       source venv/bin/activate || travis_terminate 1;
@@ -55,7 +55,7 @@ before_install:
   - if [[ $TRAVIS_PULL_REQUEST == false && -n $TRAVIS_TAG ]]; then
       if [[ $TRAVIS_OS_NAME == "osx" ]]; then
         echo "Installing pandoc.";
-        brew install pandoc || travis_terminate 1;
+        brew install pandoc 1>&2 || travis_terminate 1;
       fi;
       echo "Installing pypandoc.";
       pip install pypandoc || travis_terminate 1;
