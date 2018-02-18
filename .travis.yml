@@ -18,7 +18,7 @@ env:
 stages:
   - name: test
   - name: deploy
-    if: type = push AND tag =~ ^v\d+\.\d+\.\d+
+    if: type = push AND tag IS present
 
 os:
   - linux
@@ -52,7 +52,7 @@ before_install:
       source venv/bin/activate || travis_terminate 1;
       python --version || travis_terminate 1;
     fi
-  - if [[ $TRAVIS_PULL_REQUEST == false ]]; then
+  - if [[ $TRAVIS_PULL_REQUEST == false && -n $TRAVIS_TAG ]]; then
       if [[ $TRAVIS_OS_NAME == "osx" ]]; then
         echo "Installing pandoc.";
         brew install pandoc || travis_terminate 1;
@@ -67,7 +67,7 @@ install:
 script: 
   - python setup.py test || travis_terminate 1
   # Need to pick a Python version to create the source distribution.
-  - if [[ $TRAVIS_PYTHON_VERSION == "3.6" && $TRAVIS_OS_NAME == linux && $TRAVIS_PULL_REQUEST == false ]]; then
+  - if [[ $TRAVIS_PYTHON_VERSION == "3.6" && $TRAVIS_OS_NAME == linux && $TRAVIS_PULL_REQUEST == false && -n $TRAVIS_TAG ]]; then
       echo "Creating source distribution.";
       python setup.py sdist || travis_terminate 1;
     else
@@ -75,7 +75,7 @@ script:
     fi
   # Binary wheels for Linux that are too platform specific are not allowed to
   # be uploaded on PyPI. As we need to compile C code, we only create them on OSX.
-  - if [[ $TRAVIS_OS_NAME == osx && $TRAVIS_PULL_REQUEST == false ]]; then
+  - if [[ $TRAVIS_OS_NAME == osx && $TRAVIS_PULL_REQUEST == false && -n $TRAVIS_TAG ]]; then
       echo "Creating binary distribution wheel.";
       python setup.py bdist_wheel || travis_terminate 1;
     else
@@ -126,7 +126,7 @@ jobs:
         - python .travis/travis-release.py || travis_terminate 1
         - echo "Installing Twine."
         - pip install twine || travis_terminate 1
-        - if [[ $TRAVIS_PULL_REQUEST == false ]]; then
+        - if [[ $TRAVIS_PULL_REQUEST == false && -n $TRAVIS_TAG ]]; then
             if [[ $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
               echo "Deploy to production PyPI.";
               # twine upload dist/* --skip-existing || travis_terminate 1;
