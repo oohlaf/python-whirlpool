@@ -127,7 +127,7 @@ jobs:
         - echo "Installing Twine."
         - pip install twine || travis_terminate 1
         - if [[ $TRAVIS_PULL_REQUEST == false && -n $TRAVIS_TAG ]]; then
-            if [[ $TRAVIS_TAG =~ v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            if [[ $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo "Deploy to production PyPI.";
             else
               echo "Deploy to test PyPI.";
