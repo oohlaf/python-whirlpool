@@ -78,7 +78,7 @@ def api_request(url, token):
                 request.add_header('Authorization', 'token {}'.format(token))
             response = urlopen(request)
             break
-        except Exception as exc:
+        except Exception:
             log.exception("Failed to call API.")
         log.info("Retrying ...")
         sleep(i)
@@ -286,4 +286,4 @@ if __name__ == '__main__':
                                                    gh_url, tag,
                                                    gh_token)
         log.info("All assets downloaded for tagged release '%s'.", tag)
-        check_code_version(filenames, tag):
+        check_code_version(filenames, tag)
