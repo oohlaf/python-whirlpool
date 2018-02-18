@@ -8,7 +8,7 @@ if sys.version_info.major < 3:
     from io import open
 
 
-VERSION = '1.0.0.dev3'
+VERSION = '1.0.0'
 GITHUB_URL = 'https://github.com/oohlaf/python-whirlpool'
 DOWNLOAD_URL = '{}/archive/{}.zip'.format(GITHUB_URL, VERSION)
 
