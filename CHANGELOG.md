@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog][keepachangelog] and this
 project adheres to [Semantic Versioning][semver].
 
+## [Unreleased]
+
 ## [1.0.0] (2018-02-19)
 
 ### Added
@@ -58,6 +60,7 @@ project adheres to [Semantic Versioning][semver].
 
 - Initial commit by James Cleveland.
 
+[Unreleased]: https://github.com/oohlaf/python-whirlpool/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/oohlaf/python-whirlpool/compare/v0.3...v1.0.0
 [0.3]: https://github.com/oohlaf/python-whirlpool/compare/v0.1...v0.3
 [semver]: https://semver.org/spec/v2.0.0.html
