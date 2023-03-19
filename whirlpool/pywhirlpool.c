@@ -408,7 +408,7 @@ moduleinit(void)
 {
     PyObject *m, *d;
 
-    Py_TYPE(&Whirlpooltype) = &PyType_Type;
+    //Py_TYPE(&Whirlpooltype) = &PyType_Type;
     if (PyType_Ready(&Whirlpooltype) < 0)
         return NULL;
 
