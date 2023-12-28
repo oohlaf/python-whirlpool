@@ -30,13 +30,13 @@ GET_PIP_PATH = "C:\get-pip.py"
 URLS = {
     ("2.6", "64"): BASE_URL + "2.6.6/python-2.6.6.amd64.msi",
     ("2.6", "32"): BASE_URL + "2.6.6/python-2.6.6.msi",
-    ("2.7", "64"): BASE_URL + "2.7.10/python-2.7.13.amd64.msi",
-    ("2.7", "32"): BASE_URL + "2.7.10/python-2.7.13.msi",
-    # NOTE: no .msi installer for 3.3.6
+    ("2.7", "64"): BASE_URL + "2.7.18/python-2.7.18.amd64.msi",
+    ("2.7", "32"): BASE_URL + "2.7.18/python-2.7.18.msi",
     ("3.3", "64"): BASE_URL + "3.3.3/python-3.3.5.amd64.msi",
     ("3.3", "32"): BASE_URL + "3.3.3/python-3.3.5.msi",
-    ("3.4", "64"): BASE_URL + "3.4.3/python-3.4.6.amd64.msi",
-    ("3.4", "32"): BASE_URL + "3.4.3/python-3.4.6.msi",
+    ("3.4", "64"): BASE_URL + "3.4.4/python-3.4.4.amd64.msi",
+    ("3.4", "32"): BASE_URL + "3.4.4/python-3.4.4.msi",
+    # NOTE: no .msi installer since 3.5
     ("3.5", "64"): BASE_URL + "3.5.4/python-3.5.4-amd64.exe",
     ("3.5", "32"): BASE_URL + "3.5.4/python-3.5.4.exe",
     ("3.6", "64"): BASE_URL + "3.6.8/python-3.6.8-amd64.exe",
@@ -82,7 +82,7 @@ def download_file(url, path):
         progress[0] = count * size
         if progress[0] - progress[1] > 1000000:
             progress[1] = progress[0]
-            log.info("Downloaded %n/%n ...", progress[1], total)
+            log.info("Downloaded %s/%s ...", progress[1], total)
 
     dest, _ = urlretrieve(url, path, reporthook=report)
     return dest
@@ -128,7 +128,9 @@ def install_pip(home):
     pip_path = home + "/Scripts/pip.exe"
     python_path = home + "/python.exe"
     if exists(pip_path):
-        log.info("pip already installed.")
+        log.info("pip already installed, try to upgrade it.")
+        cmd = [python_path, "-m", "pip", "install", "--upgrade", "pip"]
+        check_call(cmd)
     else:
         log.info("Installing pip.")
         download_file(GET_PIP_URL, GET_PIP_PATH)
