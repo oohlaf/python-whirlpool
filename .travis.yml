@@ -59,7 +59,6 @@ before_install:
         virtualenv venv -p python3;
       fi;
       source venv/bin/activate || travis_terminate 1;
-      python --version || travis_terminate 1;
     fi
   - if [[ $TRAVIS_PULL_REQUEST == false && -n $TRAVIS_TAG ]]; then
       if [[ $TRAVIS_OS_NAME == "osx" ]]; then
@@ -74,6 +73,7 @@ install:
   - pip install .
 
 script: 
+  - python --version || travis_terminate 1
   - python setup.py test || travis_terminate 1
   # Need to pick a Python version to create the source distribution.
   - if [[ $TRAVIS_PYTHON_VERSION == "3.10" && $TRAVIS_OS_NAME == linux && $TRAVIS_PULL_REQUEST == false && -n $TRAVIS_TAG ]]; then
@@ -106,31 +106,31 @@ deploy:
 jobs:
   fast_finish: true
   include:
-    # Python 3.3 is available on distro Precise
+    # Python 3.3 is available on distro Trusty
     - stage: test
+      language: python
       python: 3.3
-      dist: precise
-      language: generic
+      dist: trusty
       env: TRAVIS_PYTHON_VERSION=3.3
     # Python 3.10 is available on distro Jammy
     - stage: test
+      language: python
       python: 3.10
       dist: jammy
-      language: generic
       env: TRAVIS_PYTHON_VERSION=3.10
     # Manually include OSX in the job matrix, but only for
     # Python 2.7 and 3.10.
     - stage: test
+      language: generic
       python: 2.7
       os: osx
       osx_image: xcode12.2
-      language: generic
       env: TRAVIS_PYTHON_VERSION=2.7
     - stage: test
+      language: generic
       python: 3.10
       os: osx
       osx_image: xcode14.2
-      language: generic
       env: TRAVIS_PYTHON_VERSION=3.10
     # As the deploy script fetches all build artifacts uploaded to GitHub of
     # all stages, we only need to run it once.
