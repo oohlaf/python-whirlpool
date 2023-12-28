@@ -26,8 +26,9 @@ os:
   - linux
 
 addons:
-  apt_packages:
-    - pandoc
+  apt:
+    packages:
+      - pandoc
 
 python:
   - "2.7"
@@ -107,6 +108,18 @@ jobs:
   allow_failures:
     - python: "pypy3"
   include:
+    # Python 3.3 is available on distro Precise
+    - stage: test
+      python: 3.3
+      dist: precise
+      language: generic
+      env: TRAVIS_PYTHON_VERSION=3.3
+    # Python 3.10 is available on distro Jammy
+    - stage: test
+      python: 3.10
+      dist: jammy
+      language: generic
+      env: TRAVIS_PYTHON_VERSION=3.10
     # Manually include OSX in the job matrix, but only for
     # Python 2.7 and 3.10.
     - stage: test
@@ -115,16 +128,10 @@ jobs:
       osx_image: xcode12.2
       language: generic
       env: TRAVIS_PYTHON_VERSION=2.7
-    # Python 3.3 is only available on distro Trusty
-    - stage: test
-      python: 3.3
-      dist: trusty
-      language: generic
-      env: TRAVIS_PYTHON_VERSION=3.3
     - stage: test
       python: 3.10
       os: osx
-      osx_image: xcode12.2
+      osx_image: xcode14.2
       language: generic
       env: TRAVIS_PYTHON_VERSION=3.10
     # As the deploy script fetches all build artifacts uploaded to GitHub of
@@ -133,8 +140,7 @@ jobs:
     - stage: deploy
       python: 3.10
       os: linux
-      addons: skip
-      cache: skip
+      cache: false
       before_install: skip
       install: skip
       script:
