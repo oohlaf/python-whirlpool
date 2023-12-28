@@ -37,10 +37,18 @@ URLS = {
     ("3.3", "32"): BASE_URL + "3.3.3/python-3.3.5.msi",
     ("3.4", "64"): BASE_URL + "3.4.3/python-3.4.6.amd64.msi",
     ("3.4", "32"): BASE_URL + "3.4.3/python-3.4.6.msi",
-    ("3.5", "64"): BASE_URL + "3.5.0/python-3.5.3-amd64.exe",
-    ("3.5", "32"): BASE_URL + "3.5.0/python-3.5.3.exe",
-    ("3.6", "64"): BASE_URL + "3.6.0/python-3.6.0-amd64.exe",
-    ("3.6", "32"): BASE_URL + "3.6.0/python-3.6.0.exe",
+    ("3.5", "64"): BASE_URL + "3.5.4/python-3.5.4-amd64.exe",
+    ("3.5", "32"): BASE_URL + "3.5.4/python-3.5.4.exe",
+    ("3.6", "64"): BASE_URL + "3.6.8/python-3.6.8-amd64.exe",
+    ("3.6", "32"): BASE_URL + "3.6.8/python-3.6.8.exe",
+    ("3.7", "64"): BASE_URL + "3.7.8/python-3.7.8-amd64.exe",
+    ("3.7", "32"): BASE_URL + "3.7.8/python-3.7.8.exe",
+    ("3.8", "64"): BASE_URL + "3.8.10/python-3.8.10-amd64.exe",
+    ("3.8", "32"): BASE_URL + "3.8.10/python-3.8.10.exe",
+    ("3.9", "64"): BASE_URL + "3.9.13/python-3.9.13-amd64.exe",
+    ("3.9", "32"): BASE_URL + "3.9.13/python-3.9.13.exe",
+    ("3.10", "64"): BASE_URL + "3.10.11/python-3.10.11-amd64.exe",
+    ("3.10", "32"): BASE_URL + "3.10.11/python-3.10.11.exe",
 }
 INSTALL_CMD = {
     # Commands are allowed to fail only if they are not the last command.
@@ -59,6 +67,10 @@ INSTALL_CMD = {
              "TARGETDIR={home}"]],
     "3.5": [["{path}", "/quiet", "TargetDir={home}"]],
     "3.6": [["{path}", "/quiet", "TargetDir={home}"]],
+    "3.7": [["{path}", "/quiet", "TargetDir={home}"]],
+    "3.8": [["{path}", "/quiet", "TargetDir={home}"]],
+    "3.9": [["{path}", "/quiet", "TargetDir={home}"]],
+    "3.10": [["{path}", "/quiet", "TargetDir={home}"]],
 }
 
 
