@@ -105,8 +105,6 @@ deploy:
 
 jobs:
   fast_finish: true
-  allow_failures:
-    - python: "pypy3"
   include:
     # Python 3.3 is available on distro Precise
     - stage: test
