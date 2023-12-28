@@ -23,7 +23,7 @@ stages:
 
 os:
   - linux
-dist: xenial
+dist: jammy
 
 addons:
   apt:
@@ -31,17 +31,18 @@ addons:
       - pandoc
 
 python:
-  - "2.7"
-  - "pypy"
+  # Each commented python version has a custom include for a different distro
+  # - "2.7"
+  # - "pypy"
   - "pypy3"
-  # - "3.3" needs explicit include due to other distro
-  - "3.4"
-  - "3.5"
-  - "3.6"
+  # - "3.3"
+  # - "3.4"
+  # - "3.5"
+  # - "3.6"
   - "3.7"
   - "3.8"
   - "3.9"
-  # - "3.10" needs explicit include due to other distro
+  - "3.10"
 
 before_install:
   - if [[ $TRAVIS_OS_NAME == "osx" ]]; then
@@ -111,12 +112,32 @@ jobs:
       python: 3.3
       dist: trusty
       env: TRAVIS_PYTHON_VERSION=3.3
-    # Python 3.10 is available on distro Jammy
+    # Python 2.7, pypy, 3.4, 3.5 and 3.6 are available on distro Xenial
     - stage: test
       language: python
-      python: 3.10
-      dist: jammy
-      env: TRAVIS_PYTHON_VERSION=3.10
+      python: 2.7
+      dist: xenial
+      env: TRAVIS_PYTHON_VERSION=2.7
+    - stage: test
+      language: python
+      python: pypy
+      dist: xenial
+      env: TRAVIS_PYTHON_VERSION=pypy
+    - stage: test
+      language: python
+      python: 3.4
+      dist: xenial
+      env: TRAVIS_PYTHON_VERSION=3.4
+    - stage: test
+      language: python
+      python: 3.5
+      dist: xenial
+      env: TRAVIS_PYTHON_VERSION=3.5
+    - stage: test
+      language: python
+      python: 3.6
+      dist: xenial
+      env: TRAVIS_PYTHON_VERSION=3.6
     # Manually include OSX in the job matrix, but only for
     # Python 2.7 and 3.10.
     - stage: test
