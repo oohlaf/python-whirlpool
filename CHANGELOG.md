@@ -6,7 +6,9 @@ project adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
-- Run build jobs up to Python 3.10.
+### Added
+
+- Added newer Python versions to CI scripting up to Python 3.10
 
 ## [1.0.0] (2018-02-19)
 
