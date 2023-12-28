@@ -1,6 +1,5 @@
 language: python
 cache: pip
-sudo: false
 
 env:
   global:
@@ -24,6 +23,7 @@ stages:
 
 os:
   - linux
+dist: xenial
 
 addons:
   apt:
@@ -93,9 +93,8 @@ script:
 
 deploy:
   provider: releases
-  api_key:
+  token:
     secure: Oy5f4YjhoPd1tAFK0nlD9ZmWYH1cpnl5R3erPinemU4S/8l0jyTb4e5gdYVhluzSTZGrvNKJREwTSsq6yOriNc9EgTc/YwkFczkFuPokGzNO+VNfaEfsm9v/zcPH+Tpc51mFWXYnhFzBkJeIeRPNoVXCifFL+WxoCyWg6ljpVHg=
-  skip_cleanup: true
   file_glob: true
   file:
     - dist/Whirlpool-*.tar.gz
