@@ -10,6 +10,7 @@ project adheres to [Semantic Versioning][semver].
 
 - Added newer Python versions to CI scripting up to Python 3.10
 - Now also builds on PyPy3
+- Support for Python 3.11 and 3.12
 
 ## [1.0.0] (2018-02-19)
 

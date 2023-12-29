@@ -30,6 +30,8 @@ IF "%PYTHON_VERSION%"=="3.7"  GOTO main
 IF "%PYTHON_VERSION%"=="3.8"  GOTO main
 IF "%PYTHON_VERSION%"=="3.9"  GOTO main
 IF "%PYTHON_VERSION%"=="3.10" GOTO main
+IF "%PYTHON_VERSION%"=="3.11" GOTO main
+IF "%PYTHON_VERSION%"=="3.12" GOTO main
 IF "%PYTHON_ARCH%"=="32"      GOTO main
 
 

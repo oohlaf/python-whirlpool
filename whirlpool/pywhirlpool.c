@@ -46,6 +46,12 @@
 #define HEXDIGITS(c) ((c>9) ? c+'a'-10 : c+'0')
 #endif
 
+#if PY_VERSION_HEX < 0x030900A4 && !defined(Py_SET_TYPE)
+static inline void _Py_SET_TYPE(PyObject *ob, PyTypeObject *type)
+{ ob->ob_type = type; }
+#define Py_SET_TYPE(ob, type) _Py_SET_TYPE((PyObject*)(ob), type)
+#endif
+
 typedef struct {
     PyObject_HEAD
     NESSIEstruct whirlpool; /* the context holder */
@@ -408,7 +414,7 @@ moduleinit(void)
 {
     PyObject *m, *d;
 
-    Py_TYPE(&Whirlpooltype) = &PyType_Type;
+    Py_SET_TYPE(&Whirlpooltype, &PyType_Type);
     if (PyType_Ready(&Whirlpooltype) < 0)
         return NULL;
 
