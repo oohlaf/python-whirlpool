@@ -52,6 +52,38 @@ environment:
       PYTHON_ARCH: '64'
       PYTHON_HOME: C:\Python36-x64
       PYTHON_EXE: C:\Python36-x64\python.exe
+    - PYTHON_VERSION: '3.7'
+      PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python37
+      PYTHON_EXE: C:\Python37\python.exe
+    - PYTHON_VERSION: '3.7'
+      PYTHON_ARCH: '64'
+      PYTHON_HOME: C:\Python37-x64
+      PYTHON_EXE: C:\Python37-x64\python.exe
+    - PYTHON_VERSION: '3.8'
+      PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python38
+      PYTHON_EXE: C:\Python38\python.exe
+    - PYTHON_VERSION: '3.8'
+      PYTHON_ARCH: '64'
+      PYTHON_HOME: C:\Python38-x64
+      PYTHON_EXE: C:\Python38-x64\python.exe
+    - PYTHON_VERSION: '3.9'
+      PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python39
+      PYTHON_EXE: C:\Python39\python.exe
+    - PYTHON_VERSION: '3.9'
+      PYTHON_ARCH: '64'
+      PYTHON_HOME: C:\Python39-x64
+      PYTHON_EXE: C:\Python39-x64\python.exe
+    - PYTHON_VERSION: '3.10'
+      PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python310
+      PYTHON_EXE: C:\Python310\python.exe
+    - PYTHON_VERSION: '3.10'
+      PYTHON_ARCH: '64'
+      PYTHON_HOME: C:\Python310-x64
+      PYTHON_EXE: C:\Python310-x64\python.exe
 
 matrix:
   fast_finish: true
@@ -81,7 +113,7 @@ install:
       }
   - python -u .appveyor\appveyor-bootstrap.py
 
-build: off
+build: false
 
 test_script:
   - "%CMD_WITH_COMPILER% %PYTHON_EXE% setup.py test"

@@ -6,6 +6,11 @@ project adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+### Added
+
+- Added newer Python versions to CI scripting up to Python 3.10
+- Now also builds on PyPy3
+
 ## [1.0.0] (2018-02-19)
 
 ### Added

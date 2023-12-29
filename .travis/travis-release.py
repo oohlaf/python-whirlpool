@@ -61,7 +61,7 @@ def download_file(url, path):
         progress[0] = count * size
         if progress[0] - progress[1] > 1000000:
             progress[1] = progress[0]
-            log.info("Downloaded %n/%n ...", progress[1], total)
+            log.info("Downloaded %s/%s ...", progress[1], total)
 
     dest, _ = urlretrieve(url, path, reporthook=report)
     return dest

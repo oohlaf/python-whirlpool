@@ -24,9 +24,13 @@ SET WIN_WDK="c:\Program Files (x86)\Windows Kits\10\Include\wdf"
 ECHO SDK: %WINDOWS_SDK_VERSION% ARCH: %PYTHON_ARCH%
 
 
-IF "%PYTHON_VERSION%"=="3.5" GOTO main
-IF "%PYTHON_VERSION%"=="3.6" GOTO main
-IF "%PYTHON_ARCH%"=="32"     GOTO main
+IF "%PYTHON_VERSION%"=="3.5"  GOTO main
+IF "%PYTHON_VERSION%"=="3.6"  GOTO main
+IF "%PYTHON_VERSION%"=="3.7"  GOTO main
+IF "%PYTHON_VERSION%"=="3.8"  GOTO main
+IF "%PYTHON_VERSION%"=="3.9"  GOTO main
+IF "%PYTHON_VERSION%"=="3.10" GOTO main
+IF "%PYTHON_ARCH%"=="32"      GOTO main
 
 
 SET DISTUTILS_USE_SDK=1

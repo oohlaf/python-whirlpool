@@ -18,7 +18,7 @@ The Whirlpool reference implementations are public domain, as is this code.
 The first version of the wrapper was written by James Cleveland with help
 from #python on irc.freenode.net.
 
-Later on the wrapper was rewritten by Olaf Conradi to use the hashlib interface
+Later on, the wrapper was rewritten by Olaf Conradi to use the hashlib interface
 and he made the library compatible with Python 3.
 
 ## Installation
@@ -29,9 +29,9 @@ This library is available on [PyPI].
 
 ## Usage
 
-This is the same interface as provided by the other digest algorithms in
+This is the same interface provided by the other digest algorithms in
 Python's hashlib.
-    
+
     import whirlpool
 
     wp = whirlpool.new("My String")
@@ -66,7 +66,7 @@ Or install in editable mode using pip:
 
 This module is tested using Python 2.7, PyPy, and Python 3.3 and up.
 
-You can run the test suite using
+You can run the test suite using:
 
     python setup.py test
 
