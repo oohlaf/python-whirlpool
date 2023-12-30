@@ -84,6 +84,22 @@ environment:
       PYTHON_ARCH: '64'
       PYTHON_HOME: C:\Python310-x64
       PYTHON_EXE: C:\Python310-x64\python.exe
+    - PYTHON_VERSION: '3.11'
+      PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python311
+      PYTHON_EXE: C:\Python311\python.exe
+    - PYTHON_VERSION: '3.11'
+      PYTHON_ARCH: '64'
+      PYTHON_HOME: C:\Python311-x64
+      PYTHON_EXE: C:\Python311-x64\python.exe
+    - PYTHON_VERSION: '3.12'
+      PYTHON_ARCH: '32'
+      PYTHON_HOME: C:\Python312
+      PYTHON_EXE: C:\Python312\python.exe
+    - PYTHON_VERSION: '3.12'
+      PYTHON_ARCH: '64'
+      PYTHON_HOME: C:\Python312-x64
+      PYTHON_EXE: C:\Python312-x64\python.exe
 
 matrix:
   fast_finish: true

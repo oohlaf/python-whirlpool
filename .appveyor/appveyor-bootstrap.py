@@ -49,6 +49,10 @@ URLS = {
     ("3.9", "32"): BASE_URL + "3.9.13/python-3.9.13.exe",
     ("3.10", "64"): BASE_URL + "3.10.11/python-3.10.11-amd64.exe",
     ("3.10", "32"): BASE_URL + "3.10.11/python-3.10.11.exe",
+    ("3.11", "64"): BASE_URL + "3.11.7/python-3.11.7-amd64.exe",
+    ("3.11", "32"): BASE_URL + "3.11.7/python-3.11.7.exe",
+    ("3.12", "64"): BASE_URL + "3.12.1/python-3.12.1-amd64.exe",
+    ("3.12", "32"): BASE_URL + "3.12.1/python-3.12.1.exe",
 }
 INSTALL_CMD = {
     # Commands are allowed to fail only if they are not the last command.
@@ -71,6 +75,8 @@ INSTALL_CMD = {
     "3.8": [["{path}", "/quiet", "TargetDir={home}"]],
     "3.9": [["{path}", "/quiet", "TargetDir={home}"]],
     "3.10": [["{path}", "/quiet", "TargetDir={home}"]],
+    "3.11": [["{path}", "/quiet", "TargetDir={home}"]],
+    "3.12": [["{path}", "/quiet", "TargetDir={home}"]],
 }
 
 
