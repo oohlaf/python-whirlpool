@@ -9,11 +9,13 @@ project adheres to [Semantic Versioning][semver].
 ### Added
 
 - Support for Python 3.11, 3.12, 3.13 and 3.14.
+- PEP 517-style build configuration via pyproject.toml.
 
 ### Changed
 
-- Included newer Python versions in CI scripting up to Python 3.10
-- Now also builds on PyPy3
+- Included newer Python versions in CI scripting up to Python 3.10.
+- Now also builds on PyPy3.
+- Fix unit test for block size.
 
 ## [1.0.0] (2018-02-19)
 
