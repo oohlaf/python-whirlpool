@@ -8,7 +8,8 @@ project adheres to [Semantic Versioning][semver].
 
 ### Fixed
 
-- Fixed Linux wheel packaging for PyPI uploads by repairing binary wheels to a manylinux-compatible tag.
+- Fixed Linux wheel packaging for PyPI uploads by repairing binary
+  wheels to a manylinux-compatible tag.
 
 ## [1.1.0] - 2026-06-28
 
