@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog][keepachangelog] and this
 project adheres to [Semantic Versioning][semver].
 
-## [Unreleased]
+## [1.1.0] - 2026-06-28
 
 ### Added
 
@@ -13,9 +13,8 @@ project adheres to [Semantic Versioning][semver].
 
 ### Changed
 
-- Included newer Python versions in CI scripting up to Python 3.10.
-- Now also builds on PyPy3.
-- Fix unit test for block size.
+- Expanded CI coverage for newer Python versions and PyPy3.
+- Fixed the unit test for block size.
 
 ## [1.0.0] (2018-02-19)
 
@@ -71,7 +70,7 @@ project adheres to [Semantic Versioning][semver].
 
 - Initial commit by James Cleveland.
 
-[Unreleased]: https://github.com/oohlaf/python-whirlpool/compare/v1.0.0...HEAD
+[1.1.0]: https://github.com/oohlaf/python-whirlpool/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/oohlaf/python-whirlpool/compare/v0.3...v1.0.0
 [0.3]: https://github.com/oohlaf/python-whirlpool/compare/v0.1...v0.3
 [semver]: https://semver.org/spec/v2.0.0.html
