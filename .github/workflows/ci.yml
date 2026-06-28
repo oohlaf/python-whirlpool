@@ -54,16 +54,32 @@ jobs:
           python-version: '3.14'
         - os: windows-latest
           python-version: '3.14'
+        - os: ubuntu-latest
+          python-version: 'pypy2'
+        - os: ubuntu-latest
+          python-version: 'pypy3'
 
     steps:
     - name: Check out repository
       uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
+      if: matrix.python-version != 'pypy2'
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
         cache: pip
+
+    - name: Install PyPy2 from source
+      if: matrix.python-version == 'pypy2'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libbz2-dev libffi-dev libssl-dev libsqlite3-dev zlib1g-dev libncurses5-dev libgdbm-dev libc6-dev tk-dev libreadline-dev liblzma-dev
+        git clone --depth 1 https://github.com/pypy/pypy.git /tmp/pypy2
+        cd /tmp/pypy2
+        python3 ./rpython/bin/rpython --version || true
+        echo "PyPy2 provisioning is not supported by the GitHub-hosted runner image; this job is expected to fail unless a compatible toolchain is available."
+        exit 1
 
     - name: Install build dependencies
       run: |
