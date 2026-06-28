@@ -1,7 +1,6 @@
 # python-whirlpool
 
-[![Travis CI Build Status](https://travis-ci.org/oohlaf/python-whirlpool.svg?branch=master)](https://travis-ci.org/oohlaf/python-whirlpool)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/pw35grm8ald8lg22/branch/master?svg=true)](https://ci.appveyor.com/project/oohlaf/python-whirlpool/branch/master)
+[![CI](https://github.com/oohlaf/python-whirlpool/actions/workflows/ci.yml/badge.svg)](https://github.com/oohlaf/python-whirlpool/actions/workflows/ci.yml)
 [![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)
 
 The [Whirlpool] algorithm is designed by Vincent Rijmen and Paulo S.L.M. Barreto.
@@ -56,19 +55,19 @@ The source code is available on [GitHub].
 
 Install in development mode using:
 
-    python setup.py develop
-
-Or install in editable mode using pip:
-
     pip install -e .
 
 ## Testing
 
-This module is tested using Python 2.7, PyPy, and Python 3.3 and up.
+This module is tested using Python 2.7, PyPy, and Python 3.9 and up.
 
-You can run the test suite using:
+You can run the test suite locally with:
 
-    python setup.py test
+    python -m unittest discover -s test -p 'test_*.py'
+
+For a multi-version local test matrix, you can also use:
+
+    tox
 
 [Whirlpool]: https://en.wikipedia.org/wiki/Whirlpool_(cryptography)
 [NESSIE]: https://www.cosic.esat.kuleuven.be/nessie/

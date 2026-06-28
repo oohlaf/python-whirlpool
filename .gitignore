@@ -7,3 +7,4 @@ MANIFEST
 *.swp
 venv/
 .venv/
+.python-version

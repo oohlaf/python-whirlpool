@@ -118,7 +118,7 @@ class TestWhirlpool(unittest.TestCase):
         wp = whirlpool.new()
         self.assertEqual(wp.block_size, 64)
         with self.assertRaises((AttributeError, TypeError)):
-            wp.digest_size = 32
+            wp.block_size = 32
 
 
 if __name__ == '__main__':
