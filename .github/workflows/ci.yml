@@ -121,8 +121,30 @@ jobs:
 
     - name: Build source and wheel distributions
       run: |
-        python -m pip install --upgrade pip build
+        python -m pip install --upgrade pip build auditwheel
         python -m build
+
+    - name: Repair Linux wheel for PyPI compatibility
+      if: runner.os == 'Linux'
+      run: |
+        python - <<'PY'
+        import glob
+        import os
+        import subprocess
+
+        wheels = sorted(glob.glob('dist/*.whl'))
+        if not wheels:
+            raise SystemExit('No wheel files found in dist/')
+
+        original_wheel = wheels[0]
+        subprocess.check_call([
+            'auditwheel', 'repair', original_wheel,
+            '--plat', 'manylinux2014_x86_64',
+            '-w', 'dist'
+        ])
+        os.remove(original_wheel)
+        print('Repaired wheel output is ready in dist/')
+        PY
 
     - name: Smoke test built artifacts
       run: |

@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog][keepachangelog] and this
 project adheres to [Semantic Versioning][semver].
 
+## [1.1.1] - 2026-06-28
+
+### Fixed
+
+- Fixed Linux wheel packaging for PyPI uploads by repairing binary
+  wheels to a manylinux-compatible tag.
+
 ## [1.1.0] - 2026-06-28
 
 ### Added
@@ -70,6 +77,7 @@ project adheres to [Semantic Versioning][semver].
 
 - Initial commit by James Cleveland.
 
+[1.1.1]: https://github.com/oohlaf/python-whirlpool/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/oohlaf/python-whirlpool/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/oohlaf/python-whirlpool/compare/v0.3...v1.0.0
 [0.3]: https://github.com/oohlaf/python-whirlpool/compare/v0.1...v0.3
