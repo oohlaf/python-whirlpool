@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog][keepachangelog] and this
 project adheres to [Semantic Versioning][semver].
 
+## [1.1.2] - 2026-06-28
+
+### Fixed
+
+- Forgot to update the version on the package metadata.
+
 ## [1.1.1] - 2026-06-28
 
 ### Fixed
@@ -77,6 +83,7 @@ project adheres to [Semantic Versioning][semver].
 
 - Initial commit by James Cleveland.
 
+[1.1.2]: https://github.com/oohlaf/python-whirlpool/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/oohlaf/python-whirlpool/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/oohlaf/python-whirlpool/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/oohlaf/python-whirlpool/compare/v0.3...v1.0.0
