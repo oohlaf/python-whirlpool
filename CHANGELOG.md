@@ -8,7 +8,7 @@ project adheres to [Semantic Versioning][semver].
 
 ### Added
 
-- Support for Python 3.11 and 3.12
+- Support for Python 3.11, 3.12, 3.13 and 3.14.
 
 ### Changed
 

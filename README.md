@@ -64,7 +64,7 @@ Or install in editable mode using pip:
 
 ## Testing
 
-This module is tested using Python 2.7, PyPy, and Python 3.3 and up.
+This module is tested using Python 2.7, PyPy, and Python 3.9 and up.
 
 You can run the test suite using:
 
